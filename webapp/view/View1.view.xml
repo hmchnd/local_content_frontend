@@ -4,6 +4,7 @@
     xmlns:core="sap.ui.core"
     xmlns:u="sap.ui.unified"
     xmlns:t="sap.ui.table"
+    xmlns:upload="sap.m.upload"
     xmlns:rowmodes="sap.ui.table.rowmodes"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
@@ -312,15 +313,13 @@
                                     text="Clear"
                                     type="Emphasized"
                                 />
-                                
-                                 <Button
-                                    
+
+                                <Button
                                     text="Download csv"
                                     type="Emphasized"
                                 />
-                                 <Button
-                                  
-                                    text="Print Report"
+                                <Button
+                                    text="Download Pdf"
                                     type="Emphasized"
                                 />
                             </Toolbar>
@@ -459,9 +458,7 @@
                                             text="IIN/BIN of the manufacturer of the goods to whom the ST-KZ certificate has been issued"
                                         />
                                         <t:template>
-                                            <Input
-                                                value="{secondTable>IIN}"
-                                            />
+                                            <Input value="{secondTable>IIN}" />
                                         </t:template>
                                     </t:Column>
                                     <t:Column
@@ -483,9 +480,7 @@
                                             text="Date of issue of the ST-KZ certificate, (day, month, year)"
                                         />
                                         <t:template>
-                                            <Input
-                                                value="{secondTable>DOI}"
-                                            />
+                                            <Input value="{secondTable>DOI}" />
                                         </t:template>
                                     </t:Column>
                                     <t:Column
@@ -496,7 +491,9 @@
                                             text="GWS code according to SKP"
                                         />
                                         <t:template>
-                                            <Input value="{secondTable>GWSCode}" />
+                                            <Input
+                                                value="{secondTable>GWSCode}"
+                                            />
                                         </t:template>
                                     </t:Column>
                                     <t:Column
@@ -527,15 +524,13 @@
                                     text="Clear"
                                     type="Emphasized"
                                 />
-                                
-                                 <Button
-                                    
+
+                                <Button
                                     text="Download csv"
                                     type="Emphasized"
                                 />
-                                 <Button
-                                  
-                                    text="Print Report"
+                                <Button
+                                    text="Download Pdf"
                                     type="Emphasized"
                                 />
                             </Toolbar>
@@ -585,9 +580,7 @@
                                             text="Total Number of employees of the whole legal entity"
                                         />
                                         <t:template>
-                                            <Input
-                                                value="{thirdtable>Tnoe}"
-                                            />
+                                            <Input value="{thirdtable>Tnoe}" />
                                         </t:template>
                                     </t:Column>
                                     <t:Column
@@ -598,9 +591,7 @@
                                             text="Involved for KPO activities in WKO of the whole legal entity"
                                         />
                                         <t:template>
-                                            <Input
-                                                value="{thirdtable>noe}"
-                                            />
+                                            <Input value="{thirdtable>noe}" />
                                         </t:template>
                                     </t:Column>
                                     <t:Column
@@ -611,9 +602,7 @@
                                             text="Involved for KPO activities in WKO of the whole legal entity"
                                         />
                                         <t:template>
-                                            <Input
-                                                value="{thirdtable>Tnofe}"
-                                            />
+                                            <Input value="{thirdtable>Tnofe}" />
                                         </t:template>
                                     </t:Column>
                                 </t:columns>
@@ -631,14 +620,14 @@
                                     text="Clear"
                                     type="Emphasized"
                                 />
-                                 <Button
+                                <Button
                                     id="_IDGenButto"
                                     text="Download csv"
                                     type="Emphasized"
                                 />
-                                 <Button
-                                  id="_IDGenButt05"
-                                    text="Print Report"
+                                <Button
+                                    id="_IDGenButt05"
+                                    text="Download Pdf"
                                     type="Emphasized"
                                 />
                             </Toolbar>
@@ -711,15 +700,13 @@
                                     text="Clear"
                                     type="Emphasized"
                                 />
-                                
-                                 <Button
-                                    
+
+                                <Button
                                     text="Download csv"
                                     type="Emphasized"
                                 />
-                                 <Button
-                                  
-                                    text="Print Report"
+                                <Button
+                                    text="Download Pdf"
                                     type="Emphasized"
                                 />
                             </Toolbar>
@@ -800,7 +787,7 @@
                                     </t:Column>
                                 </t:columns>
                             </t:Table>
-                             <Toolbar id="_IDGenToolbar7">
+                            <Toolbar id="_IDGenToolbar7">
                                 <ToolbarSpacer id="_IDGenToolbarSpacer8" />
                                 <Button
                                     id="_IDGenButt"
@@ -808,22 +795,70 @@
                                     type="Emphasized"
                                 />
                                 <Button
-                                   
                                     text="Clear"
                                     type="Emphasized"
                                 />
-                                
-                                 <Button
-                                    
+
+                                <Button
                                     text="Download csv"
                                     type="Emphasized"
                                 />
-                                 <Button
-                                  
-                                    text="Print Report"
+                                <Button
+                                    text="Download Pdf"
                                     type="Emphasized"
                                 />
                             </Toolbar>
+                        </WizardStep>
+                        <WizardStep
+                            id="number111"
+                            title="Upload Signed Report
+"
+                            validated="true"
+                        >
+                            <upload:UploadSet
+                                id="uploadSet"
+                                instantUpload="true"
+                                uploadEnabled="true"
+                                uploadUrl="/attachments/Files"
+                                items="{
+                                path: '/Files',
+                                parameters: {
+                                    $orderby: 'createdAt desc'
+                                },
+                                templateShareable: false}"
+                            >
+                                <upload:toolbar />
+                                <upload:items>
+                                    <upload:UploadSetItem
+                                        fileName="{fileName}"
+                                        mediaType="{mediaType}"
+                                        url="{url}"
+                                        enabledEdit="false"
+                                        visibleEdit="false"
+                                        openPressed="onOpenPressed"
+                                    >
+                                        <upload:attributes>
+                                            <ObjectAttribute
+                                                title="Uploaded By"
+                                                text="{createdBy}"
+                                                active="false"
+                                            />
+
+                                            <ObjectAttribute
+                                                title="Uploaded on"
+                                                text="{createdAt}"
+                                                active="false"
+                                            />
+
+                                            <ObjectAttribute
+                                                title="File Size"
+                                                text="{size}"
+                                                active="false"
+                                            />
+                                        </upload:attributes>
+                                    </upload:UploadSetItem>
+                                </upload:items>
+                            </upload:UploadSet>
                         </WizardStep>
                     </Wizard>
                 </content>
