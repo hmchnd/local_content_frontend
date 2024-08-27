@@ -15,10 +15,21 @@
       "version": "1.14.0",
       "toolsId": "381880c5-0d79-4932-a963-fb918d8bb9e9"
     },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/lc-report-service/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/metadata.xml",
+          "odataVersion": "4.0"
+        }
+      }
+    },
     "crossNavigation": {
       "inbounds": {
         "manage-manage": {
-          "semanticObject": "manage",
+          "semanticObject": "supplierLCDSubmission",
           "action": "manage",
           "title": "{{flpTitle}}",
           "signature": {
@@ -30,6 +41,7 @@
     }
   },
   "sap.ui": {
+    "fullWidth": true,
     "technology": "UI5",
     "icons": {
       "icon": "",
@@ -47,6 +59,7 @@
   },
   "sap.ui5": {
     "flexEnabled": false,
+    
     "dependencies": {
       "minUI5Version": "1.125.1",
       "libs": {
@@ -70,7 +83,16 @@
         "settings": {
           "bundleName": "com.kpo.supplierreport.i18n.i18n"
         }
-      }
+      },
+      "": {
+          "dataSource": "mainService",
+          "preload": true,
+          "settings": {
+            "operationMode": "Server",
+            "autoExpandSelect": true,
+            "earlyRequests": true
+          }
+        }
     },
     "resources": {
       "css": [

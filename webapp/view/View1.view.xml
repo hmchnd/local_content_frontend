@@ -1,22 +1,17 @@
+
+
 <mvc:View
     controllerName="com.kpo.supplierreport.controller.View1"
-    xmlns:form="sap.ui.layout.form"
-    xmlns:core="sap.ui.core"
-    xmlns:u="sap.ui.unified"
-    xmlns:t="sap.ui.table"
-    xmlns:upload="sap.m.upload"
-    xmlns:rowmodes="sap.ui.table.rowmodes"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
->
-    <NavContainer id="wizardNavContainer">
-        <pages>
-            <Page
-                id="wizardContentPage"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:table="sap.ui.table">
+<Page
+              
                 showHeader="false"
             >
                 <content>
-                    <form:SimpleForm
+<form:SimpleForm
                         id="SimpleFormChange354"
                         editable="true"
                         layout="ResponsiveGridLayout"
@@ -35,844 +30,464 @@
                         singleContainerFullSize="false"
                     >
                         <Label
-                            id="_IDGenLabel"
-                            text="Company Name"
-                            required="true"
+                           
+                            text="Contract Number"
+                            
                         />
                         <Input
-                            id="inpc1"
-                            value="Kpo"
+                          
+                            value="CW427"
                             editable="false"
                         />
+
+                         <Label
+                           
+                            text="Reporting Period"
+                            
+                        />
+                        <Input
+                          
+                            value="Quarter 3, 2024"
+                            editable="false"
+                        />
+                       
                         <Label
-                            id="_IDGenLab"
-                            text="Reporting Peroid"
+                            
+                            text="Status"
                             required="true"
                         />
-                        <Input
-                            id="inpc2"
-                            value="1st quarter 2024"
-                            editable="false"
+                        <ObjectStatus
+                         
+                            text="Draft"
+                            state="Error"
                         />
                     </form:SimpleForm>
-                    <Wizard
-                        id="CreateProductWizard"
-                        class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
-                        complete="wizardCompletedHandler"
-                    >
-                        <WizardStep
-                            id="ProductTypeStep"
-                            title="Report on purchased goods, works and services"
-                            validated="true"
-                        >
-                            <t:Table
-                                id="itemsTable1"
-                                fixedColumnCount="0"
-                                rows="{firstTable>/}"
-                                selectionMode="MultiToggle"
-                                ariaLabelledBy="title"
-                                width="auto"
-                            >
-                                <t:extension>
+    <IconTabBar>
+    <items>
+        <!-- First Tab -->
+        <IconTabFilter text="Purchase of goods, work and services Report">
+            <table:Table rows="{/GoodsWorkServicePurchaseT}">
+            <table:extension>
                                     <OverflowToolbar>
                                         <ToolbarSpacer />
                                         <Button
+                                   enabled="false"
+                                    text="E-Signature"
+                                    type="Emphasized"
+                                />
+
+                                <Button
+                                 enabled="false"
+                                    text="Download as CSV"
+                                    type="Emphasized"
+                                />
+                                <Button
+                                enabled="false"
+                                    text="Download as PDF"
+                                    type="Emphasized"
+                                />
+                                         <Button
+                                            icon="sap-icon://save"
+                                            text="Save Table Entries"
+                                            type="Success"
+                                            press=""
+                                        />
+                                        <Button
                                             icon="sap-icon://add"
-                                            press="onAdd1"
+                                            text="Add New Row"
+                                            press=""
                                         />
                                         <Button
                                             icon="sap-icon://delete"
-                                            press="onDelete1"
+                                              text="Delete Row"
+                                            press=""
                                         />
                                     </OverflowToolbar>
-                                </t:extension>
+                                </table:extension>
+                <table:columns>
+                    <table:Column width="8rem">
+                        <Label text="Purchase Code" />
+                        <table:template>
+                           <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="8rem">
+                        <Label text="Purchase Method" />
+                        <table:template>
+                             <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="8rem">
+                        <Label text="Contract No." />
+                        <table:template>
+                            <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column  width="8rem">
+                        <Label text="Contract Subject" />
+                        <table:template>
+                           <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="8rem">
+                        <Label text="Contract Award Date" />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                    <!-- Add more columns as needed -->
+                     <table:Column width="8rem">
+                        <Label text="Contract Expire Date" />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
 
-                                <t:rowMode>
-                                    <rowmodes:Fixed />
-                                </t:rowMode>
-                                <t:columns>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label text="Purchase code " />
-                                        <t:template>
-                                            <Input value="{firstTable>pCode}" />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label text="Contract No " />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>contractNo}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label text="Purchase method " />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>purchaseMethood}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label
-                                            text="Contract Subject (Procurement item code) "
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>contractSubject}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label
-                                            text="Contract award date (dd.mm.yy.)  "
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>contractAwardDate}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label
-                                            text="Contract expiry date (dd.mm.yy.) "
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>contractExpireDate}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label
-                                            text="Total contract value, without VAT, thousand tenge "
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>totalConValue}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="15rem">
-                                        <Label
-                                            text="Organizational and legal entity form of the supplier of GWS "
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>orgAndLegal}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label text="Country of Residency " />
-                                        <t:template>
-                                            <Input value="{firstTable>COR}" />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label
-                                            text="Goods, works, services supplier name  "
-                                        />
-                                        <t:template>
-                                            <Input value="{firstTable>GWS}" />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label text="BIN (IIN) of supplier " />
-                                        <t:template>
-                                            <Input value="{firstTable>BIN}" />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label
-                                            text="Address of physical / actual location of supplier "
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>addOfPhy}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label text="Code of GWS as per SCP " />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>codeOfGWS}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label
-                                            text="Name and brief (additional) description of purchased goods, works and services "
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>nameAndBrief}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label
-                                            text="Code for units of measure "
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>codeForUnits}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label
-                                            text="Procurement scope in terms of volume "
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>procScope}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label
-                                            text="Actual procurement amount in terms of monetary value excluding VAT, thousand tenge "
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>actualProc}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label
-                                            text="Registration number of the State Registration Act of the Contract for carrying out of Subsoil Operations"
-                                        />
-                                        <t:template>
-                                            <Input value="{firstTable>regNo}" />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label
-                                            text="Local goods manufacturer’s BIN/IIN, to whom the certificate СТ-КZ is issued "
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>localGoods}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label text="CT-KZ certificate No. " />
-                                        <t:template>
-                                            <Input value="{firstTable>CTKZ}" />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label
-                                            text="Date of CT-KZ certificate issue, dd.mm.yyyy "
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>dateOfCTKZ}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label
-                                            text="Local content in goods indicated in CT-KZ certificate, % "
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>localConInGoods}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column width="11rem">
-                                        <Label
-                                            text="Local content in works (services), % "
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{firstTable>localConInWS}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                </t:columns>
-                            </t:Table>
+                     <table:Column width="8rem">
+                        <Label text="Total Contract Value" />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
 
-                            <Toolbar id="_IDGenToolbar3">
-                                <ToolbarSpacer id="_IDGenToolbarSpacer3" />
-                                <Button
-                                    id="_IDGenButton01"
-                                    text="Save"
-                                    type="Emphasized"
-                                />
-                                <Button
-                                    id="_IDGenButton02"
-                                    text="Clear"
-                                    type="Emphasized"
-                                />
+                     <table:Column width="8rem">
+                        <Label text="Legal Entity" />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="8rem">
+                        <Label text="Country" />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="8rem">
+                        <Label text="Supplier Name" />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="4rem">
+                        <Label text="BIN" />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="10rem">
+                        <Label text="Address" />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="8rem">
+                        <Label text="GWS Code" />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="10rem">
+                        <Label text="GWS desc." />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="4rem">
+                        <Label text="UOM" />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="8rem">
+                        <Label text="Scope" />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="8rem">
+                        <Label text="Actual Amount" />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="8rem">
+                        <Label text="Registration No." />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="8rem">
+                        <Label text="LC Goods Manuf. BIN" />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="8rem">
+                        <Label text="CT KZ Cert. Num." />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="8rem">
+                        <Label text="Date of Cert. Issue" />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="8rem">
+                        <Label text="% of LC in Goods" />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                     <table:Column width="8rem">
+                        <Label text="% of LC in WS" />
+                        <table:template>
+                          <Input  />
+                        </table:template>
+                    </table:Column>
+                </table:columns>
+            </table:Table>
+        </IconTabFilter>
 
-                                <Button
-                                    text="Download csv"
-                                    type="Emphasized"
-                                />
-                                <Button
-                                    text="Download Pdf"
-                                    type="Emphasized"
-                                />
-                            </Toolbar>
-                        </WizardStep>
-                        <WizardStep
-                            id="selectinfo"
-                            validated="true"
-                            title="Reporting period"
-                            activate="additionalInfoValidation"
-                        >
-                            <t:Table
-                                id="itemsTable2"
-                                fixedColumnCount="0"
-                                rows="{secondTable>/}"
-                                selectionMode="MultiToggle"
-                                ariaLabelledBy="title"
-                            >
-                                <t:extension>
+        <!-- Second Tab -->
+        <IconTabFilter text="LC Calculation Report">
+            <table:Table rows="{/LC_CalculationReportT}">
+              <table:extension>
                                     <OverflowToolbar>
                                         <ToolbarSpacer />
                                         <Button
+                                            icon="sap-icon://save"
+                                            text="Save Table Entries"
+                                            type="Success"
+                                            press=""
+                                        />
+                                        <Button
                                             icon="sap-icon://add"
-                                            press="onAdd2"
+                                            text="Add New Row"
+                                            press=""
                                         />
                                         <Button
                                             icon="sap-icon://delete"
-                                            press="onDelete2"
+                                              text="Delete Row"
+                                            press=""
                                         />
                                     </OverflowToolbar>
-                                </t:extension>
+                                </table:extension>
+                <table:columns>
+                    <table:Column>
+                        <Label text="Company Name" />
+                        <table:template>
+                            <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="Name Of Good Service" />
+                        <table:template>
+                            <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="UOM" />
+                        <table:template>
+                           <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="Volume Of Purchase" />
+                        <table:template>
+                            <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="Actual Volume Ex VAT" />
+                        <table:template>
+                            <Input  />
+                        </table:template>
+                    </table:Column>
+                    <!-- Add more columns as needed -->
+                </table:columns>
+            </table:Table>
+        </IconTabFilter>
 
-                                <t:columns>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label text="Company Name" />
-                                        <t:template>
-                                            <Input
-                                                value="{secondTable>companyName}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="Name of goods, works and services"
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{secondTable>nameofGWS}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label text="Unit" />
-                                        <t:template>
-                                            <Input value="{secondTable>unit}" />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="Volume of purchase in physical terms"
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{secondTable>volofPur}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="Actual volume of purchase excluding VAT in value terms, thousand tenge"
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{secondTable>actualvolofpurexcVAT}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="Local content, in thousand tenge"
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{secondTable>localcontent}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="Local content in work (service), %"
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{secondTable>localcontentinWS}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="Name of the manufacturer of the goods to which the ST-KZ certificate was issued"
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{secondTable>nameofManufactur}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="IIN/BIN of the manufacturer of the goods to whom the ST-KZ certificate has been issued"
-                                        />
-                                        <t:template>
-                                            <Input value="{secondTable>IIN}" />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label text="Certificate No. 'ST-KZ'" />
-                                        <t:template>
-                                            <Input
-                                                value="{secondTable>certificateNo}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="Date of issue of the ST-KZ certificate, (day, month, year)"
-                                        />
-                                        <t:template>
-                                            <Input value="{secondTable>DOI}" />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="GWS code according to SKP"
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{secondTable>GWSCode}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="The region of the manufacturer of the goods CT-KZ"
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{secondTable>regionofManufac}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                </t:columns>
-                            </t:Table>
-
-                            <Toolbar id="_IDGenToolbar2">
-                                <ToolbarSpacer id="_IDGenToolbarSpacer1" />
-                                <Button
-                                    id="_IDGenButton1"
-                                    text="Save"
-                                    type="Emphasized"
-                                />
-                                <Button
-                                    id="_IDGenButton2"
-                                    text="Clear"
-                                    type="Emphasized"
-                                />
-
-                                <Button
-                                    text="Download csv"
-                                    type="Emphasized"
-                                />
-                                <Button
-                                    text="Download Pdf"
-                                    type="Emphasized"
-                                />
-                            </Toolbar>
-                        </WizardStep>
-                        <WizardStep
-                            id="numberofemployee"
-                            title="Number of employees working / involved for KPO activities in WKO"
-                            validated="true"
-                        >
-                            <t:Table
-                                id="itemsTable03"
-                                fixedColumnCount="0"
-                                rows="{thirdtable>/}"
-                                selectionMode="MultiToggle"
-                                ariaLabelledBy="title"
-                            >
-                                <t:extension>
+        <!-- Third Tab -->
+        <IconTabFilter text="Number of contractor employee report">
+            <table:Table rows="{/ContractorReportT}">
+            <table:extension>
                                     <OverflowToolbar>
                                         <ToolbarSpacer />
+                                         <Button
+                                            icon="sap-icon://save"
+                                            text="Save Table Entries"
+                                            type="Success"
+                                            press=""
+                                        />
                                         <Button
                                             icon="sap-icon://add"
-                                            press="onAdd3"
+                                            text="Add New Row"
+                                            press=""
                                         />
                                         <Button
                                             icon="sap-icon://delete"
-                                            press="onDelete3"
+                                              text="Delete Row"
+                                            press=""
                                         />
                                     </OverflowToolbar>
-                                </t:extension>
-                                <t:columns>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label text="Contractor Name" />
-                                        <t:template>
-                                            <Input
-                                                value="{thirdtable>ContractorName}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="Total Number of employees of the whole legal entity"
-                                        />
-                                        <t:template>
-                                            <Input value="{thirdtable>Tnoe}" />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="Involved for KPO activities in WKO of the whole legal entity"
-                                        />
-                                        <t:template>
-                                            <Input value="{thirdtable>noe}" />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="Involved for KPO activities in WKO of the whole legal entity"
-                                        />
-                                        <t:template>
-                                            <Input value="{thirdtable>Tnofe}" />
-                                        </t:template>
-                                    </t:Column>
-                                </t:columns>
-                            </t:Table>
+                                </table:extension>
+                
+                <table:columns>
+                    <table:Column>
+                        <Label text="Company Name" />
+                        <table:template>
+                             <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="Reporting Period" />
+                        <table:template>
+                           <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="Total Employee" />
+                        <table:template>
+                             <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="ROK Citizen Employee" />
+                        <table:template>
+                            <Input  />
+                        </table:template>
+                    </table:Column>
+                </table:columns>
+            </table:Table>
+        </IconTabFilter>
 
-                            <Toolbar id="_IDGenToolbar005">
-                                <ToolbarSpacer id="_IDGenToolbarSpacer06" />
-                                <Button
-                                    id="_IDGenButton05"
-                                    text="Save"
-                                    type="Emphasized"
-                                />
-                                <Button
-                                    id="_IDGenButton005"
-                                    text="Clear"
-                                    type="Emphasized"
-                                />
-                                <Button
-                                    id="_IDGenButto"
-                                    text="Download csv"
-                                    type="Emphasized"
-                                />
-                                <Button
-                                    id="_IDGenButt05"
-                                    text="Download Pdf"
-                                    type="Emphasized"
-                                />
-                            </Toolbar>
-                        </WizardStep>
-                        <WizardStep
-                            id="number"
-                            title="NUMBER OF CONTRAСTOR'S EMPLOYEES 
-"
-                            validated="true"
-                        >
-                            <t:Table
-                                id="itemsTable3"
-                                fixedColumnCount="0"
-                                rows="{fourthtable>/}"
-                                selectionMode="MultiToggle"
-                                ariaLabelledBy="title"
-                            >
-                                <t:extension>
+        <!-- Fourth Tab -->
+        <IconTabFilter text=" RoK citizen employees Report">
+            <table:Table rows="{/ROK_CTZN_Employee_ReportT}">
+              <table:extension>
                                     <OverflowToolbar>
                                         <ToolbarSpacer />
+                                         <Button
+                                            icon="sap-icon://save"
+                                            text="Save Table Entries"
+                                            type="Success"
+                                            press=""
+                                        />
                                         <Button
                                             icon="sap-icon://add"
-                                            press="onAdd4"
+                                            text="Add New Row"
+                                            press=""
                                         />
                                         <Button
                                             icon="sap-icon://delete"
-                                            press="onDelete4"
+                                              text="Delete Row"
+                                            press=""
                                         />
                                     </OverflowToolbar>
-                                </t:extension>
-                                <t:columns>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="Total number of employees (the whole legal entity)"
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{fourthtable>totalnoofemploye}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="Number of employees - RoK citizens (the whole legal entity)"
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{fourthtable>noofemployerokcitizen}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                </t:columns>
-                            </t:Table>
+                                </table:extension>
+                <table:columns>
+                    <table:Column>
+                        <Label text="Company Name" />
+                        <table:template>
+                            <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="Reporting Period" />
+                        <table:template>
+                             <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="Total Payroll Employee Percentage" />
+                        <table:template>
+                            <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="Share of RoK Citizen Employee Payroll" />
+                        <table:template>
+                            <Input  />
+                        </table:template>
+                    </table:Column>
+                </table:columns>
+            </table:Table>
+        </IconTabFilter>
 
-                            <Toolbar id="_IDGenToolbar4">
-                                <ToolbarSpacer id="_IDGenToolbarSpacer4" />
-                                <Button
-                                    id="_IDGenButton4"
-                                    text="Save"
-                                    type="Emphasized"
-                                />
-                                <Button
-                                    id="_IDGenButton6"
-                                    text="Clear"
-                                    type="Emphasized"
-                                />
-
-                                <Button
-                                    text="Download csv"
-                                    type="Emphasized"
-                                />
-                                <Button
-                                    text="Download Pdf"
-                                    type="Emphasized"
-                                />
-                            </Toolbar>
-                        </WizardStep>
-                        <WizardStep
-                            id="form"
-                            title="Form on RoK citizen employees’ payroll"
-                            validated="true"
-                        >
-                            <t:Table
-                                id="itemsTable4"
-                                fixedColumnCount="0"
-                                rows="{fifthTable>/}"
-                                selectionMode="MultiToggle"
-                                ariaLabelledBy="title"
-                            >
-                                <t:extension>
+        <!-- Fifth Tab -->
+        <IconTabFilter text="Number of Employees Involved in KPO Activities in WKO Report">
+            <table:Table rows="{/EmployeeInWKOT}">
+              <table:extension>
                                     <OverflowToolbar>
                                         <ToolbarSpacer />
+                                         <Button
+                                            icon="sap-icon://save"
+                                            text="Save Table Entries"
+                                            type="Success"
+                                            press=""
+                                        />
                                         <Button
                                             icon="sap-icon://add"
-                                            press="onAdd5"
+                                            text="Add New Row"
+                                            press=""
                                         />
                                         <Button
                                             icon="sap-icon://delete"
-                                            press="onDelete5"
+                                              text="Delete Row"
+                                            press=""
                                         />
                                     </OverflowToolbar>
-                                </t:extension>
-                                <t:columns>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label text="Company name" />
-                                        <t:template>
-                                            <Input
-                                                value="{fifthTable>companyName}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label text="Reporting period" />
-                                        <t:template>
-                                            <Input
-                                                value="{fifthTable>reportingperiod}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="Total payroll (%) of company’s employees (the whole legal entity)"
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{fifthTable>totalpayrol}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                    <t:Column
-                                        width="11rem"
-                                        class="kkk"
-                                    >
-                                        <Label
-                                            text="The share (in%) of Kazakhstan citizen employees’ payroll out of total payroll of company’s employees (the whole legal entity)"
-                                        />
-                                        <t:template>
-                                            <Input
-                                                value="{fifthTable>sharein}"
-                                            />
-                                        </t:template>
-                                    </t:Column>
-                                </t:columns>
-                            </t:Table>
-                            <Toolbar id="_IDGenToolbar7">
-                                <ToolbarSpacer id="_IDGenToolbarSpacer8" />
-                                <Button
-                                    id="_IDGenButt"
-                                    text="Save"
-                                    type="Emphasized"
-                                />
-                                <Button
-                                    text="Clear"
-                                    type="Emphasized"
-                                />
-
-                                <Button
-                                    text="Download csv"
-                                    type="Emphasized"
-                                />
-                                <Button
-                                    text="Download Pdf"
-                                    type="Emphasized"
-                                />
-                            </Toolbar>
-                        </WizardStep>
-                        <WizardStep
-                            id="number111"
-                            title="Upload Signed Report
-"
-                            validated="true"
-                        >
-                            <upload:UploadSet
-                                id="uploadSet"
-                                instantUpload="true"
-                                uploadEnabled="true"
-                                uploadUrl="/attachments/Files"
-                                items="{
-                                path: '/Files',
-                                parameters: {
-                                    $orderby: 'createdAt desc'
-                                },
-                                templateShareable: false}"
-                            >
-                                <upload:toolbar />
-                                <upload:items>
-                                    <upload:UploadSetItem
-                                        fileName="{fileName}"
-                                        mediaType="{mediaType}"
-                                        url="{url}"
-                                        enabledEdit="false"
-                                        visibleEdit="false"
-                                        openPressed="onOpenPressed"
-                                    >
-                                        <upload:attributes>
-                                            <ObjectAttribute
-                                                title="Uploaded By"
-                                                text="{createdBy}"
-                                                active="false"
-                                            />
-
-                                            <ObjectAttribute
-                                                title="Uploaded on"
-                                                text="{createdAt}"
-                                                active="false"
-                                            />
-
-                                            <ObjectAttribute
-                                                title="File Size"
-                                                text="{size}"
-                                                active="false"
-                                            />
-                                        </upload:attributes>
-                                    </upload:UploadSetItem>
-                                </upload:items>
-                            </upload:UploadSet>
-                        </WizardStep>
-                    </Wizard>
-                </content>
-                <footer>
-                    <Toolbar id="_IDGenToolbar5">
-                        <ToolbarSpacer id="_IDGenToolbarSpacer6" />
+                                </table:extension>
+                <table:columns>
+                    <table:Column>
+                        <Label text="Company Name" />
+                        <table:template>
+                            <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="Reporting Period" />
+                        <table:template>
+                            <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="Total Employee" />
+                        <table:template>
+                             <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="RoK Employee Involved In WKO" />
+                        <table:template>
+                            <Input  />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="Foreign Employee Involved In WKO" />
+                        <table:template>
+                           <Input  />
+                        </table:template>
+                    </table:Column>
+                </table:columns>
+            </table:Table>
+        </IconTabFilter>
+        </items>
+    </IconTabBar>
+ </content>
+     <footer>
+                    <Toolbar>
+                        <ToolbarSpacer />
                         <Button
-                            id="_IDGenButton5"
-                            text="Submit"
+                           enabled="false"
+                            text="Submit For Approval"
                             type="Emphasized"
                         />
                     </Toolbar>
                 </footer>
-            </Page>
-        </pages>
-    </NavContainer>
+
+                   </Page>
 </mvc:View>

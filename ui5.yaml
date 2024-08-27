@@ -15,6 +15,11 @@ server:
             - /resources
             - /test-resources
           url: https://ui5.sap.com
+        backend:
+          
+          - path: /odata
+            url: https://terralink-technologies-mena-dmcc-development-and-test-k75b7f5bb.cfapps.eu10-004.hana.ondemand.com/
+            destination: LOCAL_CONTENT_BACKEND
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:

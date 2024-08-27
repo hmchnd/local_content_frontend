@@ -29,6 +29,12 @@ server:
       afterMiddleware: compression
       configuration:
         ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
+
+        backend:
+          
+          - path: /odata
+            url: https://terralink-technologies-mena-dmcc-development-and-test-k75b7f5bb.cfapps.eu10-004.hana.ondemand.com/
+            destination: LOCAL_CONTENT_BACKEND
     - name: fiori-tools-preview
       afterMiddleware: fiori-tools-appreload
       configuration:
