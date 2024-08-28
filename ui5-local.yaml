@@ -32,8 +32,8 @@ server:
 
         backend:
           
-          - path: /odata
-            url: https://terralink-technologies-mena-dmcc-development-and-test-k75b7f5bb.cfapps.eu10-004.hana.ondemand.com/
+          - path: /v2
+            url: https://98aa08a0trial-dev-local-content-backend-srv.cfapps.us10-001.hana.ondemand.com/
             destination: LOCAL_CONTENT_BACKEND
     - name: fiori-tools-preview
       afterMiddleware: fiori-tools-appreload

@@ -3,8 +3,8 @@
   "authenticationMethod": "route",
   "routes": [
     {
-      "source": "^/resources/(.*)$",
-      "target": "/resources/$1",
+      "source": "^/v2/resources/(.*)$",
+      "target": "/v2/resources/$1",
       "authenticationType": "none",
       "destination": "ui5"
     },
