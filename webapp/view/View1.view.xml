@@ -252,7 +252,7 @@
 
                     <!-- Second Tab -->
                     <IconTabFilter text="LC Calculation Report">
-                        <table:Table rows="{/LC_CalculationReportT}">
+                        <table:Table id="idcalculationtable" rows="{/LC_CalculationReportT}">
                             <table:extension>
                                 <OverflowToolbar>
                                     <ToolbarSpacer />
@@ -312,7 +312,7 @@
 
                     <!-- Third Tab -->
                     <IconTabFilter text="Number of contractor employee report">
-                        <table:Table rows="{/ContractorReportT}">
+                        <table:Table id="idcontractortable" rows="{ContractorReportModel>/}">
                             <table:extension>
                                 <OverflowToolbar>
                                     <ToolbarSpacer />
@@ -320,17 +320,17 @@
                                         icon="sap-icon://save"
                                         text="Save Table Entries"
                                         type="Success"
-                                        press=""
+                                        press="onSaveContractorReportT"
                                     />
                                     <Button
                                         icon="sap-icon://add"
                                         text="Add New Row"
-                                        press=""
+                                        press="onAddContractorReportT"
                                     />
                                     <Button
                                         icon="sap-icon://delete"
                                         text="Delete Row"
-                                        press=""
+                                        press="onDeleteContractorReportT"
                                     />
                                 </OverflowToolbar>
                             </table:extension>
@@ -339,25 +339,25 @@
                                 <table:Column>
                                     <Label text="Company Name" />
                                     <table:template>
-                                        <Input />
+                                        <Input value="{ContractorReportModel>companyName}" />
                                     </table:template>
                                 </table:Column>
                                 <table:Column>
                                     <Label text="Reporting Period" />
                                     <table:template>
-                                        <Input />
+                                        <Input value="{ContractorReportModel>reportingPeriod}" />
                                     </table:template>
                                 </table:Column>
                                 <table:Column>
                                     <Label text="Total Employee" />
                                     <table:template>
-                                        <Input />
+                                        <Input  value="{ContractorReportModel>totalEmployee}"  />
                                     </table:template>
                                 </table:Column>
                                 <table:Column>
                                     <Label text="ROK Citizen Employee" />
                                     <table:template>
-                                        <Input />
+                                        <Input  value="{ContractorReportModel>ROK_ctzn_Employee}"  />
                                     </table:template>
                                 </table:Column>
                             </table:columns>

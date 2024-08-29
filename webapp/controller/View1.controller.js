@@ -1,9 +1,10 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
-    "sap/m/MessageToast"
+    "sap/m/MessageToast",
+    "sap/m/MessageBox"
 ],
-    function (Controller, JSONModel, MessageToast) {
+    function (Controller, JSONModel, MessageToast, MessageBox) {
         "use strict";
 
         return Controller.extend("com.kpo.supplierreport.controller.View1", {
@@ -11,14 +12,16 @@ sap.ui.define([
 
                 let oGoodsWorkServicePurchaseModel = new JSONModel([]);
                 this.getView().setModel(oGoodsWorkServicePurchaseModel, "oGoodsWorkServicePurchaseModel")
+                let ContractorReportModel = new JSONModel([]);
+                this.getView().setModel(ContractorReportModel, "ContractorReportModel")
                 this.fetchDataFromODataService();
 
             },
             onAddRow: function () {
-                var oModel = this.getView().getModel("oGoodsWorkServicePurchaseModel");
-                let oModelData = oModel.getData();
-                oModelData.push({
-
+                debugger
+                var oLocalModelGWS = this.getView().getModel("oGoodsWorkServicePurchaseModel");
+                let oModelGWSData = oLocalModelGWS.getData();
+                oModelGWSData.push({
                     purchaseCode: "",
                     purchaseMethod: "",
                     contractNumber: "",
@@ -44,140 +47,149 @@ sap.ui.define([
                     localContentInWorkPercentage: 0.0
                 })
 
-                oModel.setData(oModelData);
-                oModel.refresh()
+                oLocalModelGWS.setData(oModelGWSData);
+                oLocalModelGWS.refresh()
 
             },
 
             onSaveTable: function () {
-                let OModel = this.getOwnerComponent().getModel();
-                var oTable = this.byId("idGoodsWorkServicePurchaseTable");
-                var oSelectedIndex = oTable.getSelectedIndex();
-                var oModel = this.getView().getModel("oGoodsWorkServicePurchaseModel");
-                
-                if (oSelectedIndex === -1) {
-                    MessageToast.show("Please select a row to save.");
-                    return;
-                }
-            
-                var aData = oModel.getData();
-                var oSelectedData = aData[oSelectedIndex];
-            
-                var oEntry = {
-                    purchaseCode: oSelectedData.purchaseCode,
-                    purchaseMethod: oSelectedData.purchaseMethod,
-                    contractNumber: oSelectedData.contractNumber,
-                    contractSubject: oSelectedData.contractSubject,
-                    contractAwardDate: oSelectedData.contractAwardDate,
-                    contractExpireDate: oSelectedData.contractExpireDate,
-                    totalContractValueWOVAT: oSelectedData.totalContractValueWOVAT,
-                    legalEntity: oSelectedData.legalEntity,
-                    country: oSelectedData.country,
-                    supplierName: oSelectedData.supplierName,
-                    BIN: oSelectedData.BIN,
-                    supplierAddress: oSelectedData.supplierAddress,
-                    GWSCode: oSelectedData.GWSCode,
-                    nameOfGoodWorkService: oSelectedData.nameOfGoodWorkService,
-                    UOM: oSelectedData.UOM,
-                    procurementScope: oSelectedData.procurementScope,
-                    actualAmountExVat: oSelectedData.actualAmountExVat,
-                    registrationNumber: oSelectedData.registrationNumber,
-                    localGoodsManufacturerBin: oSelectedData.localGoodsManufacturerBin,
-                    CT_KZ_Cert_Num: oSelectedData.CT_KZ_Cert_Num,
-                    dateOfCertIssue: oSelectedData.dateOfCertIssue,
-                    localContentInGoodsPercentage: oSelectedData.localContentInGoodsPercentage,
-                    localContentInWorkPercentage: oSelectedData.localContentInWorkPercentage
-                };
-            
+                debugger;
+                let oDataServiceModel = this.getOwnerComponent().getModel();
+                var oLocalModelGWS = this.getView().getModel("oGoodsWorkServicePurchaseModel"); // The JSON model containing the data to be saved           
+                var aGWSModelData = oLocalModelGWS.getData(); // Get all data from the JSON model           
                 var that = this;
-            
-                if (oSelectedData.ID && oSelectedData.parentKey_ID) {
-                    // Entry exists in the backend, perform update
-                    var sPath = `/GoodsWorkServicePurchaseT(parentKey_ID=${oSelectedData.parentKey_ID},ID=${oSelectedData.ID})`;
-                    OModel.update(sPath, oEntry, {
-                        success: function () {
-                            // MessageToast.show("Line item updated successfully.");
 
-                        },
-                        error: function (oError) {
-                            MessageToast.show("Error updating line item.");
+                // Counters for tracking completion
+                let totalEntries = aGWSModelData.length;
+                let completedEntries = 0;
+                let errorsOccurred = false;
+
+                // Helper function to check completion and show message
+                function checkCompletion() {
+                    if (completedEntries === totalEntries) {
+                        if (!errorsOccurred) {
+                            MessageBox.success("Items updated successfully.");
+                        } else {
+                            MessageBox.error("Some items failed to update.");
                         }
-                    });
-                } else {
-                    // Entry might be new, check if it's in-memory (not yet saved to backend)
-                    if (oSelectedData.isNew) {
-                        // Update existing in-memory data before sending it to backend
-                        that._addLineItem(OModel, oSelectedData.parentKey_ID, oEntry);
-                    } else {
-                        // Check if header exists before creating a new entry
-                        OModel.read("/LC_HeaderT", {
-                            filters: [
-                                new sap.ui.model.Filter("vendorID", sap.ui.model.FilterOperator.EQ, "VEN11"),
-                                new sap.ui.model.Filter("contractNo", sap.ui.model.FilterOperator.EQ, "CON01")
-                            ],
-                            success: function (oData) {
-                                if (oData.results && oData.results.length > 0) {
-                                    var headerID = oData.results[0].ID; // Assume the header ID is stored in 'ID'
-                                    that._addLineItem(OModel, headerID, oEntry);
-                                } else {
-                                    that._createNewHeader(OModel, oEntry);
-                                }
-                            },
-                            error: function (oError) {
-                                MessageToast.show("Error fetching header data from OData service.");
-                            }
-                        });
                     }
                 }
+
+                aGWSModelData.forEach(function (oSelectedData) {
+                    if (oSelectedData.ID && oSelectedData.parentKey_ID) {
+                        // Entry exists in the backend, perform update
+                        var sPath = `/GoodsWorkServicePurchaseT(parentKey_ID=${oSelectedData.parentKey_ID},ID=${oSelectedData.ID})`;
+
+                        oDataServiceModel.update(sPath, oSelectedData, {
+                            success: function () {
+                                completedEntries++;
+                                checkCompletion();
+                            },
+                            error: function (oError) {
+                                completedEntries++; // Increment the counter on error
+                                errorsOccurred = true; // Set error flag to true
+                                MessageToast.show("Error updating line item.");
+                                checkCompletion();
+                            }
+                        });
+                    } else {
+                        // Entry might be new, check if it's in-memory (not yet saved to backend)
+                        if (oSelectedData.isNew) {
+                            that._addLineItem(oDataServiceModel, oSelectedData.parentKey_ID, oSelectedData, function () {
+                                completedEntries++;
+                                checkCompletion();
+                            }, function () {
+                                completedEntries++;
+                                errorsOccurred = true;
+                                checkCompletion();
+                            });
+                        } else {
+                            // Check if header exists before creating a new entry
+                            oDataServiceModel.read("/LC_HeaderT", {
+                                filters: [
+                                    new sap.ui.model.Filter("vendorID", sap.ui.model.FilterOperator.EQ, "VEN11"),
+                                    new sap.ui.model.Filter("contractNo", sap.ui.model.FilterOperator.EQ, "CON01")
+                                ],
+                                success: function (oData) {
+                                    if (oData.results && oData.results.length > 0) {
+                                        var headerID = oData.results[0].ID; // Assume the header ID is stored in 'ID'
+                                        that._addLineItem(oDataServiceModel, headerID, oSelectedData, function () {
+                                            completedEntries++;
+                                            checkCompletion();
+                                        }, function () {
+                                            completedEntries++;
+                                            errorsOccurred = true;
+                                            checkCompletion();
+                                        });
+                                    } else {
+                                        that._createNewHeader(oDataServiceModel, oSelectedData, function () {
+                                            completedEntries++;
+                                            checkCompletion();
+                                        }, function () {
+                                            completedEntries++;
+                                            errorsOccurred = true;
+                                            checkCompletion();
+                                        });
+                                    }
+                                },
+                                error: function (oError) {
+                                    completedEntries++;
+                                    errorsOccurred = true;
+                                    checkCompletion();
+                                }
+                            });
+                        }
+                    }
+                });
             },
-            
-            _createNewHeader: function (OModel, oEntry) {
+
+            _createNewHeader: function (oDataServiceModel, oSelectedData, successCallback, errorCallback) {
                 var that = this;
                 var headerEntry = {
-                    gwsReport: [oEntry], // Initialize with the first line item
+                    gwsReport: [oSelectedData], // Initialize with the first line item
                     vendorID: "VEN11",
                     contractNo: "CON01",
                     reportingPeriod: "2024-08-08T00:00:00",
                     status: "Draft"
                 };
-            
-                OModel.create("/LC_HeaderT", headerEntry, {
-                    
+
+                oDataServiceModel.create("/LC_HeaderT", headerEntry, {
                     success: function () {
-                        // MessageToast.show("Header and first line item created successfully.");
+                        successCallback();
                         that.fetchDataFromODataService();
                     },
                     error: function (oError) {
-                        MessageToast.show("Error creating header in OData service.");
+                        errorCallback();
                     }
                 });
             },
-            
-            _addLineItem: function (OModel, headerID, oEntry) {
+
+            _addLineItem: function (oDataServiceModel, headerID, oSelectedData, successCallback, errorCallback) {
                 var that = this;
                 // Construct path for adding line item to the existing header
                 var path = `/LC_HeaderT('${headerID}')/gwsReport`;
-                OModel.create(path, oEntry, {
+                oDataServiceModel.create(path, oSelectedData, {
                     success: function () {
-                        // MessageToast.show("Line item added successfully.");
+                        successCallback();
                         that.fetchDataFromODataService();
                     },
                     error: function (oError) {
-                        MessageToast.show("Error adding line item to existing header.");
+                        errorCallback();
                     }
                 });
             },
-            
-            fetchDataFromODataService: function () {
-                let OModel = this.getOwnerComponent().getModel(); // Get the OData model
-                let oJSONModel = this.getView().getModel("oGoodsWorkServicePurchaseModel"); // Get your JSON model
 
-                OModel.read("/GoodsWorkServicePurchaseT", {
+
+
+            fetchDataFromODataService: function () {
+                let oDataServiceModel = this.getOwnerComponent().getModel(); // Get the OData model
+                let oLocalModelGWS = this.getView().getModel("oGoodsWorkServicePurchaseModel"); // Get your JSON model
+
+                oDataServiceModel.read("/GoodsWorkServicePurchaseT", {
                     success: function (oData) {
-                        // Assuming the response contains an array of records
-                        oJSONModel.setData(oData.results);
+                        oLocalModelGWS.setData(oData.results);
                         console.log(oData.results)
-                        oJSONModel.refresh();
+                        oLocalModelGWS.refresh();
                     },
                     error: function (oError) {
                         sap.m.MessageToast.show("Error fetching data from OData service.");
@@ -189,111 +201,61 @@ sap.ui.define([
             onDeleteRow: function () {
                 var that = this;
                 var oTable = this.byId("idGoodsWorkServicePurchaseTable"); // Use the correct table ID
-                var oModel = this.getOwnerComponent().getModel();
+                var oDataServiceModel = this.getOwnerComponent().getModel();
                 var aSelectedIndices = oTable.getSelectedIndices();
-            
+
                 // Check if any item is selected
                 if (aSelectedIndices.length > 0) {
-                    var iSelectedIndex = aSelectedIndices[0];
-                    var oContext = oTable.getContextByIndex(iSelectedIndex);
-            
-                    if (oContext) {
-                        var oSelectedData = oContext.getObject(); // Get the selected data object
-            
-                        // Check if ID and parentKey_ID are present
-                        if (oSelectedData.ID && oSelectedData.parentKey_ID) {
-                            var sDeletePath = `/GoodsWorkServicePurchaseT(parentKey_ID=${oSelectedData.parentKey_ID},ID=${oSelectedData.ID})`;
-            
-                            // Perform the delete operation
-                            oModel.remove(sDeletePath, {
-                                success: function () {
-                                    MessageToast.show("Entry deleted successfully.");
-                                    oTable.getBinding("rows").refresh(); // Refresh the table to reflect changes
-                                    that.fetchDataFromODataService();
-                                },
-                                error: function (oError) {
-                                    console.error(oError); // Log error details for debugging
-                                    MessageToast.show("Error deleting entry.");
-                                }
-                            });
-                        } else {
-                            MessageToast.show("Selected entry does not have a valid ID and parentKey_ID.");
+                    // Iterate over all selected indices
+                    aSelectedIndices.forEach(function (iSelectedIndex) {
+                        var oContext = oTable.getContextByIndex(iSelectedIndex);
+
+                        if (oContext) {
+                            var oSelectedData = oContext.getObject(); // Get the selected data object
+
+                            // Check if ID and parentKey_ID are present
+                            if (oSelectedData.ID && oSelectedData.parentKey_ID) {
+                                var sDeletePath = `/GoodsWorkServicePurchaseT(parentKey_ID=${oSelectedData.parentKey_ID},ID=${oSelectedData.ID})`;
+
+                                // Perform the delete operation
+                                oDataServiceModel.remove(sDeletePath, {
+                                    success: function () {
+                                        oTable.getBinding("rows").refresh(); // Refresh the table to reflect changes
+                                        that.fetchDataFromODataService();
+                                    },
+                                    error: function (oError) {
+                                        console.error(oError); // Log error details for debugging
+                                        MessageToast.show("Error deleting entry.");
+                                    }
+                                });
+                            } else {
+                                MessageToast.show("Selected entry does not have a valid ID and parentKey_ID.");
+                            }
                         }
-                    } else {
-                        MessageToast.show("Selected context is invalid.");
-                    }
+                    });
                 } else {
                     MessageToast.show("No item selected.");
                 }
+                MessageBox.success("Selected item deleted successfully.");
+
             },
-            
+            onAddContractorReportT: function () {
+                debugger
+                var oLocalModelContractor = this.getView().getModel("ContractorReportModel");
+                let oModelContractorData = oLocalModelContractor.getData();
+                oModelContractorData.push({
+                    companyName: "",
+                    reportingPeriod: "",
+                    totalEmployee: "",
+                    ROK_ctzn_Employee: "",
+                    
+                    
+                })
 
+                oLocalModelContractor.setData(oModelContractorData);
+                oLocalModelContractor.refresh()
 
-
-
-            onDelete1: function () {
-                let model = this.getView().getModel("firstTable");
-                let table = this.byId("itemsTable1");
-                let selectedIndices = table.getSelectedIndices();
-                let modelData = model.getData();
-                selectedIndices.sort((a, b) => b - a).forEach(index => {
-                    modelData.splice(index, 1);
-                });
-                model.setData(modelData);
-                model.refresh();
-                table.clearSelection();
-            },
-
-            onDelete2: function () {
-                let model = this.getView().getModel("secondTable");
-                let table = this.byId("itemsTable2");
-                let selectedIndices = table.getSelectedIndices();
-                let modelData = model.getData();
-                selectedIndices.sort((a, b) => b - a).forEach(index => {
-                    modelData.splice(index, 1);
-                });
-                model.setData(modelData);
-                model.refresh();
-                table.clearSelection();
             },
 
-            onDelete3: function () {
-                let model = this.getView().getModel("thirdtable");
-                let table = this.byId("itemsTable03");
-                let selectedIndices = table.getSelectedIndices();
-                let modelData = model.getData();
-                selectedIndices.sort((a, b) => b - a).forEach(index => {
-                    modelData.splice(index, 1);
-                });
-                model.setData(modelData);
-                model.refresh();
-                table.clearSelection();
-            },
-
-            onDelete4: function () {
-                let model = this.getView().getModel("fourthtable");
-                let table = this.byId("itemsTable3");
-                let selectedIndices = table.getSelectedIndices();
-                let modelData = model.getData();
-                selectedIndices.sort((a, b) => b - a).forEach(index => {
-                    modelData.splice(index, 1);
-                });
-                model.setData(modelData);
-                model.refresh();
-                table.clearSelection();
-            },
-
-            onDelete5: function () {
-                let model = this.getView().getModel("fifthTable");
-                let table = this.byId("itemsTable4");
-                let selectedIndices = table.getSelectedIndices();
-                let modelData = model.getData();
-                selectedIndices.sort((a, b) => b - a).forEach(index => {
-                    modelData.splice(index, 1);
-                });
-                model.setData(modelData);
-                model.refresh();
-                table.clearSelection();
-            },
         });
     });
