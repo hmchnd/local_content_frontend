@@ -2,9 +2,10 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageToast",
-    "sap/m/MessageBox"
+    "sap/m/MessageBox",
+    "sap/ui/export/Spreadsheet" 
 ],
-    function (Controller, JSONModel, MessageToast, MessageBox) {
+    function (Controller, JSONModel, MessageToast, MessageBox, Spreadsheet) {
         "use strict";
 
         return Controller.extend("com.kpo.supplierreport.controller.View1", {
@@ -250,6 +251,73 @@ sap.ui.define([
                 MessageBox.success("Selected item deleted successfully.");
 
             },
+            onDownloadGWSCsv: function () {
+                let oDataServiceModel = this.getOwnerComponent().getModel(); 
+                var that = this;
+            
+                // Adjust the path and parameters based on your OData entity set
+                var sPath = "/GoodsWorkServicePurchaseT"; // Replace with your OData entity set name
+                
+                oDataServiceModel.read(sPath, {
+                    success: function(oData) {
+                        // Use the retrieved data for the spreadsheet
+                        that._createSpreadsheet(oData.results);
+                    },
+                    error: function(oError) {
+                        MessageToast.show("Error fetching data from the backend");
+                    }
+                });
+            },
+            
+            _createSpreadsheet: function(aData) {
+                var aCols = this.createContractorReportColumnConfig(); // Create the column configuration
+            
+                var oSettings = {
+                    workbook: {
+                        columns: aCols
+                    },
+                    dataSource: aData, // Use the data fetched from the backend
+                    fileName: 'GWSReport.xlsx',
+                    worker: false // Set to true if you want to run export in a worker thread
+                };
+            
+                var oSheet = new Spreadsheet(oSettings);
+                oSheet.build()
+                    .then(function () {
+                        MessageToast.show("Table Records Downloaded");
+                    })
+                    .finally(function () {
+                        oSheet.destroy();
+                    });
+            },
+    
+            createColumnConfig: function () {
+                return [
+                    { label: 'Purchase Code', property: 'purchaseCode', type: 'string' },
+                    { label: 'Purchase Method', property: 'purchaseMethod', type: 'string' },
+                    { label: 'Contract Number', property: 'contractNumber', type: 'string' },
+                    { label: 'Contract Subject', property: 'contractSubject', type: 'string' },
+                    { label: 'Contract Award Date', property: 'contractAwardDate', type: 'string' },
+                    { label: 'Contract Expire Date', property: 'contractExpireDate', type: 'string' },
+                    { label: 'Total Contract Value Without VAT', property: 'totalContractValueWOVAT', type: 'number' },
+                    { label: 'Legal Entity', property: 'legalEntity', type: 'string' },
+                    { label: 'Country', property: 'country', type: 'string' },
+                    { label: 'Supplier Name', property: 'supplierName', type: 'string' },
+                    { label: 'BIN', property: 'BIN', type: 'string' },
+                    { label: 'Supplier Address', property: 'supplierAddress', type: 'string' },
+                    { label: 'GWS Code', property: 'GWSCode', type: 'string' },
+                    { label: 'Name Of Good/Work/Service', property: 'nameOfGoodWorkService', type: 'string' },
+                    { label: 'UOM', property: 'UOM', type: 'string' },
+                    { label: 'Procurement Scope', property: 'procurementScope', type: 'string' },
+                    { label: 'Actual Amount Ex-VAT', property: 'actualAmountExVat', type: 'number' },
+                    { label: 'Registration Number', property: 'registrationNumber', type: 'string' },
+                    { label: 'Local Goods Manufacturer BIN', property: 'localGoodsManufacturerBin', type: 'string' },
+                    { label: 'CT KZ Cert Number', property: 'CT_KZ_Cert_Num', type: 'string' },
+                    { label: 'Date Of Cert Issue', property: 'dateOfCertIssue', type: 'string' },
+                    { label: 'Local Content In Goods Percentage', property: 'localContentInGoodsPercentage', type: 'number' },
+                    { label: 'Local Content In Work Percentage', property: 'localContentInWorkPercentage', type: 'number' }
+                ];
+            },
             onAddContractorReportT: function () {
                 debugger
                 var oLocalModelContractor = this.getView().getModel("ContractorReportModel");
@@ -451,6 +519,59 @@ sap.ui.define([
                 MessageBox.success("Selected item deleted successfully.");
 
             },
+            
+            onDownloadContractorCsv: function () {
+                let oDataServiceModel = this.getOwnerComponent().getModel(); 
+                var that = this;
+            
+                // Adjust the path and parameters based on your OData entity set
+                var sPath = "/ContractorReportT"; // Replace with your OData entity set name
+                
+                oDataServiceModel.read(sPath, {
+                    success: function(oData) {
+                        // Use the retrieved data for the spreadsheet
+                        that._createSpreadsheet(oData.results);
+                    },
+                    error: function(oError) {
+                        MessageToast.show("Error fetching data from the backend");
+                    }
+                });
+            },
+            
+            _createSpreadsheet: function(aData) {
+                var aCols = this.createContractorReportColumnConfig(); // Create the column configuration
+            
+                var oSettings = {
+                    workbook: {
+                        columns: aCols
+                    },
+                    dataSource: aData, // Use the data fetched from the backend
+                    fileName: 'ContractorReport.xlsx',
+                    worker: false // Set to true if you want to run export in a worker thread
+                };
+            
+                var oSheet = new Spreadsheet(oSettings);
+                oSheet.build()
+                    .then(function () {
+                        MessageToast.show("Table Records Downloaded");
+                    })
+                    .finally(function () {
+                        oSheet.destroy();
+                    });
+            },
+            
+            createContractorReportColumnConfig: function () {
+                return [
+                    { label: 'Company Name', property: 'companyName', type: 'string' },
+                    { label: 'Reporting Period', property: 'reportingPeriod', type: 'string' },
+                    { label: 'Total Employee', property: 'totalEmployee', type: 'number' },
+                    { label: 'ROK Citizen Employee', property: 'ROK_ctzn_Employee', type: 'number' }
+                ];
+            },
+            
+            
+            
+            
 
             onAddEmployeeInWKOT: function () {
                 debugger
@@ -653,7 +774,56 @@ sap.ui.define([
                 MessageBox.success("Selected item deleted successfully.");
 
             },
+            onDownloadEmployeeInWKOTCsv: function () {
 
+                let oDataServiceModel = this.getOwnerComponent().getModel(); 
+                var that = this;
+            
+                // Adjust the path and parameters based on your OData entity set
+                var sPath = "/EmployeeInWKOT"; // Replace with your OData entity set name
+                
+                oDataServiceModel.read(sPath, {
+                    success: function(oData) {
+                        // Use the retrieved data for the spreadsheet
+                        that._createSpreadsheet(oData.results);
+                    },
+                    error: function(oError) {
+                        MessageToast.show("Error fetching data from the backend");
+                    }
+                });
+            },
+            
+            _createSpreadsheet: function(aData) {
+                var aCols = this.createContractorReportColumnConfig(); // Create the column configuration
+            
+                var oSettings = {
+                    workbook: {
+                        columns: aCols
+                    },
+                    dataSource: aData, // Use the data fetched from the backend
+                    fileName: 'EmployeeInWKO.xlsx',
+                    worker: false // Set to true if you want to run export in a worker thread
+                };
+            
+                var oSheet = new Spreadsheet(oSettings);
+                oSheet.build()
+                    .then(function () {
+                        MessageToast.show("Table Records Downloaded");
+                    })
+                    .finally(function () {
+                        oSheet.destroy();
+                    });
+            },
+            createEmployeeInWKOTColumnConfig: function () {
+                return [
+                    { label: 'Company Name', property: 'companyName', type: 'string' },
+                    { label: 'Reporting Period', property: 'reportingPeriod', type: 'string' },
+                    { label: 'Total Employee', property: 'totalEmployee', type: 'number' },
+                    { label: 'ROK Employee Involved in WKO', property: 'rokEmployeeInvolvedInWKO', type: 'number' },
+                    { label: 'Foreign Employee Involved in WKO', property: 'foreignEmpInvolvedInWKO', type: 'number' }
+                ];
+            },                
+            
             onAddRokCtznEmployee: function () {
                 debugger
                 var oLocalModelRokctnzEmploye = this.getView().getModel("RokctznemployeeModel");
@@ -855,6 +1025,54 @@ sap.ui.define([
                 MessageBox.success("Selected item deleted successfully.");
 
             },
+            onDownloadRokctznemployeCsv: function () {
+                 let oDataServiceModel = this.getOwnerComponent().getModel(); 
+                var that = this;
+            
+                // Adjust the path and parameters based on your OData entity set
+                var sPath = "/ROK_CTZN_Employee_ReportT"; // Replace with your OData entity set name
+                
+                oDataServiceModel.read(sPath, {
+                    success: function(oData) {
+                        // Use the retrieved data for the spreadsheet
+                        that._createSpreadsheet(oData.results);
+                    },
+                    error: function(oError) {
+                        MessageToast.show("Error fetching data from the backend");
+                    }
+                });
+            },
+            
+            _createSpreadsheet: function(aData) {
+                var aCols = this.createContractorReportColumnConfig(); // Create the column configuration
+            
+                var oSettings = {
+                    workbook: {
+                        columns: aCols
+                    },
+                    dataSource: aData, // Use the data fetched from the backend
+                    fileName: 'ROK_CTZN_Employee_Report.xlsx',
+                    worker: false // Set to true if you want to run export in a worker thread
+                };
+            
+                var oSheet = new Spreadsheet(oSettings);
+                oSheet.build()
+                    .then(function () {
+                        MessageToast.show("Table Records Downloaded");
+                    })
+                    .finally(function () {
+                        oSheet.destroy();
+                    });
+            },
+            createRokctznemployeeColumnConfig: function () {
+                return [
+                    { label: 'Company Name', property: 'companyName', type: 'string' },
+                    { label: 'Reporting Period', property: 'reportingPeriod', type: 'string' },
+                    { label: 'Total Payroll Employee Percentage', property: 'totalPayrollEmployeePercentage', type: 'number' },
+                    { label: 'Share of ROK Citizen Employee Payroll', property: 'share_of_rok_ctzn_emp_payroll', type: 'number' }
+                ];
+            },
+            
             onAddCalculation: function () {
                 debugger
                 var oLocalModelCalculation = this.getView().getModel("CalculationReportModel");
@@ -1072,6 +1290,65 @@ sap.ui.define([
                 MessageBox.success("Selected item deleted successfully.");
 
             },
+            onDownloadCalculationCsv: function () {
+                // Assuming there is no specific table for this model, we'll directly use the model's data
+                let oDataServiceModel = this.getOwnerComponent().getModel(); 
+                var that = this;
+            
+                // Adjust the path and parameters based on your OData entity set
+                var sPath = "/LC_CalculationReportT"; // Replace with your OData entity set name
+                
+                oDataServiceModel.read(sPath, {
+                    success: function(oData) {
+                        // Use the retrieved data for the spreadsheet
+                        that._createSpreadsheet(oData.results);
+                    },
+                    error: function(oError) {
+                        MessageToast.show("Error fetching data from the backend");
+                    }
+                });
+            },
+            
+            _createSpreadsheet: function(aData) {
+                var aCols = this.createContractorReportColumnConfig(); // Create the column configuration
+            
+                var oSettings = {
+                    workbook: {
+                        columns: aCols
+                    },
+                    dataSource: aData, // Use the data fetched from the backend
+                    fileName: 'LC_CalculationReport.xlsx',
+                    worker: false // Set to true if you want to run export in a worker thread
+                };
+            
+                var oSheet = new Spreadsheet(oSettings);
+                oSheet.build()
+                    .then(function () {
+                        MessageToast.show("Table Records Downloaded");
+                    })
+                    .finally(function () {
+                        oSheet.destroy();
+                    });
+            },
+            createCalculationReportColumnConfig: function () {
+                return [
+                    { label: 'Company Name', property: 'companyName', type: 'string' },
+                    { label: 'Name Of Good/Service', property: 'nameOfGoodService', type: 'string' },
+                    { label: 'UOM', property: 'UOM', type: 'string' },
+                    { label: 'Volume Of Purchase', property: 'volumeOfPurchase', type: 'number' },
+                    { label: 'Actual Volume Ex-VAT', property: 'actualVolumeExVat', type: 'number' },
+                    { label: 'Local Content In Tenge', property: 'localContentInTenge', type: 'number' },
+                    { label: 'Local Content In Goods Percentage', property: 'localContentInGoodsPercentage', type: 'number' },
+                    { label: 'Local Content In Work Percentage', property: 'localContentInWorkPercentage', type: 'number' },
+                    { label: 'Local Goods Manufacturer', property: 'localGoodsManufacturer', type: 'string' },
+                    { label: 'Local Goods Manufacturer BIN', property: 'localGoodsManufacturerBin', type: 'string' },
+                    { label: 'GWS Code', property: 'GWSCode', type: 'string' },
+                    { label: 'CT KZ Cert Number', property: 'CT_KZ_Cert_Num', type: 'string' },
+                    { label: 'Date Of Cert Issue', property: 'dateOfCertIssue', type: 'string' },
+                    { label: 'Region Of Manufacturer', property: 'regionOfManufacturer', type: 'string' }
+                ];
+            },
+            
 
         });
     });

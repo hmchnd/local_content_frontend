@@ -67,9 +67,10 @@
                                     />
 
                                     <Button
-                                        enabled="false"
+                                        enabled="true"
                                         text="Download as CSV"
                                         type="Emphasized"
+                                        press="onDownloadGWSCsv"
                                     />
                                     <Button
                                         enabled="false"
@@ -136,9 +137,7 @@
                                 <table:Column width="8rem">
                                     <Label text="Total Contract Value" />
                                     <table:template>
-                                        <Input
-                                            value="{oGoodsWorkServicePurchaseModel>totalContractValueWOVAT}"
-                                        />
+                                        <Input value="{path:'oGoodsWorkServicePurchaseModel>totalContractValueWOVAT', type: 'sap.ui.model.type.Float'}}" />
                                     </table:template>
                                 </table:Column>
 
@@ -201,7 +200,7 @@
                                 <table:Column width="8rem">
                                     <Label text="Actual Amount" />
                                     <table:template>
-                                        <Input value="{oGoodsWorkServicePurchaseModel>actualAmountExVat}" />
+                                        <Input value="{path:'oGoodsWorkServicePurchaseModel>actualAmountExVat', type: 'sap.ui.model.type.Float'}}"  />
                                     </table:template>
                                 </table:Column>
                                 <table:Column width="8rem">
@@ -233,17 +232,13 @@
                                 <table:Column width="8rem">
                                     <Label text="% of LC in Goods" />
                                     <table:template>
-                                        <Input
-                                            value="{oGoodsWorkServicePurchaseModel>localContentInGoodsPercentage}"
-                                        />
+                                        <Input value="{path:'oGoodsWorkServicePurchaseModel>localContentInGoodsPercentage', type: 'sap.ui.model.type.Float'}}"  />
                                     </table:template>
                                 </table:Column>
                                 <table:Column width="8rem">
                                     <Label text="% of LC in WS" />
                                     <table:template>
-                                        <Input
-                                            value="{oGoodsWorkServicePurchaseModel>localContentInWorkPercentage}"
-                                        />
+                                        <Input value="{path:'oGoodsWorkServicePurchaseModel>localContentInWorkPercentage', type: 'sap.ui.model.type.Float'}}"  />
                                     </table:template>
                                 </table:Column>
                             </table:columns>
@@ -256,6 +251,12 @@
                             <table:extension>
                                 <OverflowToolbar>
                                     <ToolbarSpacer />
+                                    <Button
+                                        enabled="true"
+                                        text="Download as CSV"
+                                        type="Emphasized"
+                                        press="onDownloadCalculationCsv"
+                                    />
                                     <Button
                                         icon="sap-icon://save"
                                         text="Save Table Entries"
@@ -296,31 +297,31 @@
                                 <table:Column width="8rem">
                                     <Label text="Volume Of Purchase" />
                                     <table:template>
-                                        <Input value="{CalculationReportModel>volumeOfPurchase}" />
+                                        <Input value="{path:'CalculationReportModel>volumeOfPurchase', type: 'sap.ui.model.type.Float'}}"  />
                                     </table:template>
                                 </table:Column>
                                 <table:Column width="8rem">
                                     <Label text="Actual Volume Ex VAT" />
                                     <table:template>
-                                        <Input value="{CalculationReportModel>actualVolumeExVat}" />
+                                       <Input value="{path:'CalculationReportModel>actualVolumeExVat', type: 'sap.ui.model.type.Float'}}"  />
                                     </table:template>
                                 </table:Column>
                                 <table:Column width="8rem">
                                     <Label text="Local Content In TengeT" />
                                     <table:template>
-                                        <Input value="{CalculationReportModel>localContentInTenge}" />
+                                       <Input value="{path:'CalculationReportModel>localContentInTenge', type: 'sap.ui.model.type.Float'}}"  />
                                     </table:template>
                                 </table:Column>
                                 <table:Column width="8rem">
                                     <Label text="Local Content In Goods Percentage" />
                                     <table:template>
-                                        <Input value="{CalculationReportModel>localContentInGoodsPercentage}" />
+                                       <Input value="{path:'CalculationReportModel>localContentInGoodsPercentage', type: 'sap.ui.model.type.Float'}}"  />
                                     </table:template>
                                 </table:Column>
                                 <table:Column width="8rem">
                                     <Label text="Local Content In Work Percentage" />
                                     <table:template>
-                                        <Input value="{CalculationReportModel>localContentInWorkPercentage}" />
+                                      <Input value="{path:'CalculationReportModel>localContentInWorkPercentage', type: 'sap.ui.model.type.Float'}}"  />
                                     </table:template>
                                 </table:Column>
                                 <table:Column width="8rem">
@@ -370,6 +371,12 @@
                             <table:extension>
                                 <OverflowToolbar>
                                     <ToolbarSpacer />
+                                    <Button
+                                        enabled="true"
+                                        text="Download as CSV"
+                                        type="Emphasized"
+                                        press="onDownloadContractorCsv"
+                                    />
                                     <Button
                                         icon="sap-icon://save"
                                         text="Save Table Entries"
@@ -425,6 +432,12 @@
                                 <OverflowToolbar>
                                     <ToolbarSpacer />
                                     <Button
+                                        enabled="true"
+                                        text="Download as CSV"
+                                        type="Emphasized"
+                                        press="onDownloadRokctznemployeCsv"
+                                    />
+                                    <Button
                                         icon="sap-icon://save"
                                         text="Save Table Entries"
                                         type="Success"
@@ -460,7 +473,7 @@
                                         text="Total Payroll Employee Percentage"
                                     />
                                     <table:template>
-                                        <Input value="{RokctznemployeeModel>totalPayrollEmployeePercentage}" />
+                                         <Input value="{path:'RokctznemployeeModel>totalPayrollEmployeePercentage', type: 'sap.ui.model.type.Float'}}"  />
                                     </table:template>
                                 </table:Column>
                                 <table:Column>
@@ -468,7 +481,7 @@
                                         text="Share of RoK Citizen Employee Payroll"
                                     />
                                     <table:template>
-                                        <Input value="{RokctznemployeeModel>share_of_rok_ctzn_emp_payroll}" />
+                                         <Input value="{path:'RokctznemployeeModel>share_of_rok_ctzn_emp_payroll', type: 'sap.ui.model.type.Float'}}"  />
                                     </table:template>
                                 </table:Column>
                             </table:columns>
@@ -483,6 +496,12 @@
                             <table:extension>
                                 <OverflowToolbar>
                                     <ToolbarSpacer />
+                                      <Button
+                                        enabled="true"
+                                        text="Download as CSV"
+                                        type="Emphasized"
+                                        press="onDownloadEmployeeInWKOTCsv"
+                                    />
                                     <Button
                                         icon="sap-icon://save"
                                         text="Save Table Entries"
