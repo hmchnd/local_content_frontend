@@ -366,7 +366,7 @@
 
                     <!-- Fourth Tab -->
                     <IconTabFilter text=" RoK citizen employees Report">
-                        <table:Table rows="{/ROK_CTZN_Employee_ReportT}">
+                        <table:Table id="idRokctznemployeetable" rows="{RokctznemployeeModel>/}">
                             <table:extension>
                                 <OverflowToolbar>
                                     <ToolbarSpacer />
@@ -374,17 +374,17 @@
                                         icon="sap-icon://save"
                                         text="Save Table Entries"
                                         type="Success"
-                                        press=""
+                                        press="onSaveRokctnemployee"
                                     />
                                     <Button
                                         icon="sap-icon://add"
                                         text="Add New Row"
-                                        press=""
+                                        press="onAddRokCtznEmployee"
                                     />
                                     <Button
                                         icon="sap-icon://delete"
                                         text="Delete Row"
-                                        press=""
+                                        press="onDeleteRokctnemployee"
                                     />
                                 </OverflowToolbar>
                             </table:extension>
@@ -392,13 +392,13 @@
                                 <table:Column>
                                     <Label text="Company Name" />
                                     <table:template>
-                                        <Input />
+                                        <Input value="{RokctznemployeeModel>companyName}" />
                                     </table:template>
                                 </table:Column>
                                 <table:Column>
                                     <Label text="Reporting Period" />
                                     <table:template>
-                                        <Input />
+                                        <Input value="{RokctznemployeeModel>reportingPeriod}" />
                                     </table:template>
                                 </table:Column>
                                 <table:Column>
@@ -406,7 +406,7 @@
                                         text="Total Payroll Employee Percentage"
                                     />
                                     <table:template>
-                                        <Input />
+                                        <Input value="{RokctznemployeeModel>totalPayrollEmployeePercentage}" />
                                     </table:template>
                                 </table:Column>
                                 <table:Column>
@@ -414,7 +414,7 @@
                                         text="Share of RoK Citizen Employee Payroll"
                                     />
                                     <table:template>
-                                        <Input />
+                                        <Input value="{RokctznemployeeModel>share_of_rok_ctzn_emp_payroll}" />
                                     </table:template>
                                 </table:Column>
                             </table:columns>
@@ -425,7 +425,7 @@
                     <IconTabFilter
                         text="Number of Employees Involved in KPO Activities in WKO Report"
                     >
-                        <table:Table rows="{/EmployeeInWKOT}">
+                        <table:Table id="idEmployeeInWKOTtable" rows="{EmployeeInWKOTModel>/}">
                             <table:extension>
                                 <OverflowToolbar>
                                     <ToolbarSpacer />
@@ -433,17 +433,17 @@
                                         icon="sap-icon://save"
                                         text="Save Table Entries"
                                         type="Success"
-                                        press=""
+                                        press="onSaveEmployeeInWKOT"
                                     />
                                     <Button
                                         icon="sap-icon://add"
                                         text="Add New Row"
-                                        press=""
+                                        press="onAddEmployeeInWKOT"
                                     />
                                     <Button
                                         icon="sap-icon://delete"
                                         text="Delete Row"
-                                        press=""
+                                        press="onDeleteEmployeeInWKOT"
                                     />
                                 </OverflowToolbar>
                             </table:extension>
@@ -451,19 +451,19 @@
                                 <table:Column>
                                     <Label text="Company Name" />
                                     <table:template>
-                                        <Input />
+                                        <Input value="{EmployeeInWKOTModel>companyName}" />
                                     </table:template>
                                 </table:Column>
                                 <table:Column>
                                     <Label text="Reporting Period" />
                                     <table:template>
-                                        <Input />
+                                        <Input value="{EmployeeInWKOTModel>reportingPeriod}" />
                                     </table:template>
                                 </table:Column>
                                 <table:Column>
                                     <Label text="Total Employee" />
                                     <table:template>
-                                        <Input />
+                                        <Input value="{EmployeeInWKOTModel>totalEmployee}" />
                                     </table:template>
                                 </table:Column>
                                 <table:Column>
@@ -471,7 +471,7 @@
                                         text="RoK Employee Involved In WKO"
                                     />
                                     <table:template>
-                                        <Input />
+                                        <Input value="{EmployeeInWKOTModel>rokEmployeeInvolvedInWKO}" />
                                     </table:template>
                                 </table:Column>
                                 <table:Column>
@@ -479,7 +479,7 @@
                                         text="Foreign Employee Involved In WKO"
                                     />
                                     <table:template>
-                                        <Input />
+                                        <Input value="{EmployeeInWKOTModel>foreignEmpInvolvedInWKO}" />
                                     </table:template>
                                 </table:Column>
                             </table:columns>
