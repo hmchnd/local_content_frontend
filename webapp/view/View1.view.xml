@@ -137,7 +137,7 @@
                                 <table:Column width="8rem">
                                     <Label text="Total Contract Value" />
                                     <table:template>
-                                        <Input value="{path:'oGoodsWorkServicePurchaseModel>totalContractValueWOVAT', type: 'sap.ui.model.type.Float'}}" />
+                                        <Input value="{path:'oGoodsWorkServicePurchaseModel>totalContractValueWOVAT', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
                                     </table:template>
                                 </table:Column>
 
@@ -200,7 +200,7 @@
                                 <table:Column width="8rem">
                                     <Label text="Actual Amount" />
                                     <table:template>
-                                        <Input value="{path:'oGoodsWorkServicePurchaseModel>actualAmountExVat', type: 'sap.ui.model.type.Float'}}"  />
+                                        <Input value="{path:'oGoodsWorkServicePurchaseModel>actualAmountExVat', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}"  />
                                     </table:template>
                                 </table:Column>
                                 <table:Column width="8rem">
@@ -232,13 +232,13 @@
                                 <table:Column width="8rem">
                                     <Label text="% of LC in Goods" />
                                     <table:template>
-                                        <Input value="{path:'oGoodsWorkServicePurchaseModel>localContentInGoodsPercentage', type: 'sap.ui.model.type.Float'}}"  />
+                                        <Input value="{path:'oGoodsWorkServicePurchaseModel>localContentInGoodsPercentage', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}"  />
                                     </table:template>
                                 </table:Column>
                                 <table:Column width="8rem">
                                     <Label text="% of LC in WS" />
                                     <table:template>
-                                        <Input value="{path:'oGoodsWorkServicePurchaseModel>localContentInWorkPercentage', type: 'sap.ui.model.type.Float'}}"  />
+                                        <Input value="{path:'oGoodsWorkServicePurchaseModel>localContentInWorkPercentage', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}"  />
                                     </table:template>
                                 </table:Column>
                             </table:columns>
@@ -297,31 +297,31 @@
                                 <table:Column width="8rem">
                                     <Label text="Volume Of Purchase" />
                                     <table:template>
-                                        <Input value="{path:'CalculationReportModel>volumeOfPurchase', type: 'sap.ui.model.type.Float'}}"  />
+                                       <Input value="{path:'CalculationReportModel>volumeOfPurchase', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
                                     </table:template>
                                 </table:Column>
                                 <table:Column width="8rem">
                                     <Label text="Actual Volume Ex VAT" />
                                     <table:template>
-                                       <Input value="{path:'CalculationReportModel>actualVolumeExVat', type: 'sap.ui.model.type.Float'}}"  />
+                                      <Input value="{path:'CalculationReportModel>actualVolumeExVat', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
                                     </table:template>
                                 </table:Column>
                                 <table:Column width="8rem">
                                     <Label text="Local Content In TengeT" />
                                     <table:template>
-                                       <Input value="{path:'CalculationReportModel>localContentInTenge', type: 'sap.ui.model.type.Float'}}"  />
+                                      <Input value="{path:'CalculationReportModel>localContentInTenge', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
                                     </table:template>
                                 </table:Column>
                                 <table:Column width="8rem">
                                     <Label text="Local Content In Goods Percentage" />
                                     <table:template>
-                                       <Input value="{path:'CalculationReportModel>localContentInGoodsPercentage', type: 'sap.ui.model.type.Float'}}"  />
+                                      <Input value="{path:'CalculationReportModel>localContentInGoodsPercentage', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
                                     </table:template>
                                 </table:Column>
                                 <table:Column width="8rem">
                                     <Label text="Local Content In Work Percentage" />
                                     <table:template>
-                                      <Input value="{path:'CalculationReportModel>localContentInWorkPercentage', type: 'sap.ui.model.type.Float'}}"  />
+                                     <Input value="{path:'CalculationReportModel>localContentInWorkPercentage', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
                                     </table:template>
                                 </table:Column>
                                 <table:Column width="8rem">
@@ -473,7 +473,7 @@
                                         text="Total Payroll Employee Percentage"
                                     />
                                     <table:template>
-                                         <Input value="{path:'RokctznemployeeModel>totalPayrollEmployeePercentage', type: 'sap.ui.model.type.Float'}}"  />
+                                         <Input value="{path:'RokctznemployeeModel>totalPayrollEmployeePercentage', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}"  />
                                     </table:template>
                                 </table:Column>
                                 <table:Column>
@@ -481,7 +481,7 @@
                                         text="Share of RoK Citizen Employee Payroll"
                                     />
                                     <table:template>
-                                         <Input value="{path:'RokctznemployeeModel>share_of_rok_ctzn_emp_payroll', type: 'sap.ui.model.type.Float'}}"  />
+                                         <Input value="{path:'RokctznemployeeModel>share_of_rok_ctzn_emp_payroll', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}"  />
                                     </table:template>
                                 </table:Column>
                             </table:columns>
