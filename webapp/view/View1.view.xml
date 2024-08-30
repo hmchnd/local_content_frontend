@@ -252,7 +252,7 @@
 
                     <!-- Second Tab -->
                     <IconTabFilter text="LC Calculation Report">
-                        <table:Table id="idcalculationtable" rows="{/LC_CalculationReportT}">
+                        <table:Table id="idcalculationtable" rows="{CalculationReportModel>/}">
                             <table:extension>
                                 <OverflowToolbar>
                                     <ToolbarSpacer />
@@ -260,49 +260,103 @@
                                         icon="sap-icon://save"
                                         text="Save Table Entries"
                                         type="Success"
-                                        press=""
+                                        press="onSaveCalculation"
                                     />
                                     <Button
                                         icon="sap-icon://add"
                                         text="Add New Row"
-                                        press=""
+                                        press="onAddCalculation"
                                     />
                                     <Button
                                         icon="sap-icon://delete"
                                         text="Delete Row"
-                                        press=""
+                                        press="onDeleteCalculation"
                                     />
                                 </OverflowToolbar>
                             </table:extension>
                             <table:columns>
-                                <table:Column>
+                                <table:Column width="8rem">
                                     <Label text="Company Name" />
                                     <table:template>
-                                        <Input />
+                                        <Input value="{CalculationReportModel>companyName}" />
                                     </table:template>
                                 </table:Column>
-                                <table:Column>
+                                <table:Column width="8rem">
                                     <Label text="Name Of Good Service" />
                                     <table:template>
-                                        <Input />
+                                        <Input value="{CalculationReportModel>nameOfGoodService}" />
                                     </table:template>
                                 </table:Column>
-                                <table:Column>
+                                <table:Column width="8rem">
                                     <Label text="UOM" />
                                     <table:template>
-                                        <Input />
+                                        <Input value="{CalculationReportModel>UOM}" />
                                     </table:template>
                                 </table:Column>
-                                <table:Column>
+                                <table:Column width="8rem">
                                     <Label text="Volume Of Purchase" />
                                     <table:template>
-                                        <Input />
+                                        <Input value="{CalculationReportModel>volumeOfPurchase}" />
                                     </table:template>
                                 </table:Column>
-                                <table:Column>
+                                <table:Column width="8rem">
                                     <Label text="Actual Volume Ex VAT" />
                                     <table:template>
-                                        <Input />
+                                        <Input value="{CalculationReportModel>actualVolumeExVat}" />
+                                    </table:template>
+                                </table:Column>
+                                <table:Column width="8rem">
+                                    <Label text="Local Content In TengeT" />
+                                    <table:template>
+                                        <Input value="{CalculationReportModel>localContentInTenge}" />
+                                    </table:template>
+                                </table:Column>
+                                <table:Column width="8rem">
+                                    <Label text="Local Content In Goods Percentage" />
+                                    <table:template>
+                                        <Input value="{CalculationReportModel>localContentInGoodsPercentage}" />
+                                    </table:template>
+                                </table:Column>
+                                <table:Column width="8rem">
+                                    <Label text="Local Content In Work Percentage" />
+                                    <table:template>
+                                        <Input value="{CalculationReportModel>localContentInWorkPercentage}" />
+                                    </table:template>
+                                </table:Column>
+                                <table:Column width="8rem">
+                                    <Label text="Local Goods Manufacturer" />
+                                    <table:template>
+                                        <Input value="{CalculationReportModel>localGoodsManufacturer}" />
+                                    </table:template>
+                                </table:Column>
+                                <table:Column width="8rem">
+                                    <Label text="Local Goods Manufacturer Bin" />
+                                    <table:template>
+                                        <Input value="{CalculationReportModel>localGoodsManufacturerBin}" />
+                                    </table:template>
+                                </table:Column>
+                                <table:Column width="8rem">
+                                    <Label text="GWS Code" />
+                                    <table:template>
+                                        <Input value="{CalculationReportModel>GWSCode}" />
+                                    </table:template>
+                                </table:Column>
+                                 <table:Column width="8rem">
+                                    <Label text="CT KZ Cert Num" />
+                                    <table:template>
+                                        <Input value="{CalculationReportModel>CT_KZ_Cert_Num}"/>
+                                    </table:template>
+                                </table:Column>
+                                 <table:Column width="8rem">
+                                    <Label text="Date Of CertIssue" />
+                                    <table:template>
+                                        <Input value="{CalculationReportModel>dateOfCertIssue}" />
+                                    </table:template>
+                                </table:Column>
+                                 <table:Column width="8rem">
+                                    <Label text="Region Of Manufacturer" />
+                                    <table:template>
+                                        <Input value="{CalculationReportModel>regionOfManufacturer}" />
                                     </table:template>
                                 </table:Column>
                                 <!-- Add more columns as needed -->

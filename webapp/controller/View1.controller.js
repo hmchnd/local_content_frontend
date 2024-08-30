@@ -14,11 +14,17 @@ sap.ui.define([
                 this.getView().setModel(oGoodsWorkServicePurchaseModel, "oGoodsWorkServicePurchaseModel")
                 let ContractorReportModel = new JSONModel([]);
                 this.getView().setModel(ContractorReportModel, "ContractorReportModel")
-                let EmployeeInWKOTModel=new JSONModel([]);
+                let EmployeeInWKOTModel = new JSONModel([]);
                 this.getView().setModel(EmployeeInWKOTModel, "EmployeeInWKOTModel")
+                let RokctznemployeeModel = new JSONModel([]);
+                this.getView().setModel(RokctznemployeeModel, "RokctznemployeeModel")
+                let CalculationReportModel = new JSONModel([]);
+                this.getView().setModel(CalculationReportModel, "CalculationReportModel")
                 this.fetchGWSDataFromODataService();
                 this.fetchContractorReportData();
                 this.fetchEmployeeReportData();
+                this.fetchRkoctznReportData();
+                this.fetchCalculationReportData();
 
 
             },
@@ -253,8 +259,8 @@ sap.ui.define([
                     reportingPeriod: "",
                     totalEmployee: "",
                     ROK_ctzn_Employee: "",
-                    
-                    
+
+
                 })
 
                 oLocalModelContractor.setData(oModelContractorData);
@@ -288,7 +294,7 @@ sap.ui.define([
                     if (oSelectedData.ID && oSelectedData.parentKey_ID) {
                         // Entry exists in the backend, perform update
                         var sPath = `/ContractorReportT(parentKey_ID=${oSelectedData.parentKey_ID},ID=${oSelectedData.ID})`;
-                    
+
 
                         oDataServiceModel.update(sPath, oSelectedData, {
                             success: function () {
@@ -367,7 +373,7 @@ sap.ui.define([
                 oDataServiceModel.create("/LC_HeaderT", headerEntry, {
                     success: function () {
                         successCallback();
-                         that.fetchContractorReportData();
+                        that.fetchContractorReportData();
                     },
                     error: function (oError) {
                         errorCallback();
@@ -382,7 +388,7 @@ sap.ui.define([
                 oDataServiceModel.create(path, oSelectedData, {
                     success: function () {
                         successCallback();
-                         that.fetchContractorReportData();
+                        that.fetchContractorReportData();
                     },
                     error: function (oError) {
                         errorCallback();
@@ -648,7 +654,424 @@ sap.ui.define([
 
             },
 
-            
+            onAddRokCtznEmployee: function () {
+                debugger
+                var oLocalModelRokctnzEmploye = this.getView().getModel("RokctznemployeeModel");
+                let oModelRokctznEmployeData = oLocalModelRokctnzEmploye.getData();
+                oModelRokctznEmployeData.push({
+                    companyName: "",
+                    reportingPeriod: "",
+                    totalPayrollEmployeePercentage: "",
+                    share_of_rok_ctzn_emp_payroll: "",
+
+
+                })
+
+                oLocalModelRokctnzEmploye.setData(oModelRokctznEmployeData);
+                oLocalModelRokctnzEmploye.refresh()
+
+
+
+            },
+            onSaveRokctnemployee: function () {
+                debugger;
+                let oDataServiceModel = this.getOwnerComponent().getModel();
+                var oLocalModelRokctnzEmploye = this.getView().getModel("RokctznemployeeModel"); // The JSON model containing the data to be saved           
+                var oModelRokctznEmployeData = oLocalModelRokctnzEmploye.getData(); // Get all data from the JSON model           
+                var that = this;
+
+                // Counters for tracking completion
+                let totalEntries = oModelRokctznEmployeData.length;
+                let completedEntries = 0;
+                let errorsOccurred = false;
+
+                // Helper function to check completion and show message
+                function checkCompletion() {
+                    if (completedEntries === totalEntries) {
+                        if (!errorsOccurred) {
+                            MessageBox.success("Items updated successfully.");
+                        } else {
+                            MessageBox.error("Some items failed to update.");
+                        }
+                    }
+                }
+
+                oModelRokctznEmployeData.forEach(function (oSelectedData) {
+                    if (oSelectedData.ID && oSelectedData.parentKey_ID) {
+                        // Entry exists in the backend, perform update
+                        var sPath = `/ROK_CTZN_Employee_ReportT(parentKey_ID=${oSelectedData.parentKey_ID},ID=${oSelectedData.ID})`;
+
+                        oDataServiceModel.update(sPath, oSelectedData, {
+                            success: function () {
+                                completedEntries++;
+                                checkCompletion();
+                            },
+                            error: function (oError) {
+                                completedEntries++; // Increment the counter on error
+                                errorsOccurred = true; // Set error flag to true
+                                MessageToast.show("Error updating line item.");
+                                checkCompletion();
+                            }
+                        });
+                    } else {
+                        // Entry might be new, check if it's in-memory (not yet saved to backend)
+                        if (oSelectedData.isNew) {
+                            that._addRokctznEmployeItem(oDataServiceModel, oSelectedData.parentKey_ID, oSelectedData, function () {
+                                completedEntries++;
+                                checkCompletion();
+                            }, function () {
+                                completedEntries++;
+                                errorsOccurred = true;
+                                checkCompletion();
+                            });
+                        } else {
+                            // Check if header exists before creating a new entry
+                            oDataServiceModel.read("/LC_HeaderT", {
+                                filters: [
+                                    new sap.ui.model.Filter("vendorID", sap.ui.model.FilterOperator.EQ, "VEN11"),
+                                    new sap.ui.model.Filter("contractNo", sap.ui.model.FilterOperator.EQ, "CON01")
+                                ],
+                                success: function (oData) {
+                                    if (oData.results && oData.results.length > 0) {
+                                        var headerID = oData.results[0].ID; // Assume the header ID is stored in 'ID'
+                                        that._addRokctznEmployeItem(oDataServiceModel, headerID, oSelectedData, function () {
+                                            completedEntries++;
+                                            checkCompletion();
+                                        }, function () {
+                                            completedEntries++;
+                                            errorsOccurred = true;
+                                            checkCompletion();
+                                        });
+                                    } else {
+                                        that._createNewRokctznHeader(oDataServiceModel, oSelectedData, function () {
+                                            completedEntries++;
+                                            checkCompletion();
+                                        }, function () {
+                                            completedEntries++;
+                                            errorsOccurred = true;
+                                            checkCompletion();
+                                        });
+                                    }
+                                },
+                                error: function (oError) {
+                                    completedEntries++;
+                                    errorsOccurred = true;
+                                    checkCompletion();
+                                }
+                            });
+                        }
+                    }
+                });
+            },
+
+            _createNewRokctznHeader: function (oDataServiceModel, oSelectedData, successCallback, errorCallback) {
+                var that = this;
+                var headerEntry = {
+                    rokCtznEmpReport: [oSelectedData], // Initialize with the first line item
+                    vendorID: "VEN11",
+                    contractNo: "CON01",
+                    reportingPeriod: "2024-08-08T00:00:00",
+                    status: "Draft"
+                };
+
+                oDataServiceModel.create("/LC_HeaderT", headerEntry, {
+                    success: function () {
+                        successCallback();
+                        that.fetchRkoctznReportData();
+                    },
+                    error: function (oError) {
+                        errorCallback();
+                    }
+                });
+            },
+
+            _addRokctznEmployeItem: function (oDataServiceModel, headerID, oSelectedData, successCallback, errorCallback) {
+                var that = this;
+                // Construct path for adding line item to the existing header
+                var path = `/LC_HeaderT('${headerID}')/rokCtznEmpReport`;
+                oDataServiceModel.create(path, oSelectedData, {
+                    success: function () {
+                        successCallback();
+                        that.fetchRkoctznReportData();
+                    },
+                    error: function (oError) {
+                        errorCallback();
+                    }
+                });
+            },
+            fetchRkoctznReportData: function () {
+                let oDataServiceModel = this.getOwnerComponent().getModel(); // Get the OData model
+                let oLocalModelRokctnzEmploye = this.getView().getModel("RokctznemployeeModel"); // Get your JSON model
+
+                oDataServiceModel.read("/ROK_CTZN_Employee_ReportT", {
+                    success: function (oData) {
+                        oLocalModelRokctnzEmploye.setData(oData.results);
+                        console.log(oData.results)
+                        oLocalModelRokctnzEmploye.refresh();
+                    },
+                    error: function (oError) {
+                        sap.m.MessageToast.show("Error fetching data from OData service.");
+                    }
+                });
+            },
+            onDeleteRokctnemployee: function () {
+                var that = this;
+                var oTable = this.byId("idRokctznemployeetable"); // Use the correct table ID
+                var oDataServiceModel = this.getOwnerComponent().getModel();
+                var aSelectedIndices = oTable.getSelectedIndices();
+
+                // Check if any item is selected
+                if (aSelectedIndices.length > 0) {
+                    // Iterate over all selected indices
+                    aSelectedIndices.forEach(function (iSelectedIndex) {
+                        var oContext = oTable.getContextByIndex(iSelectedIndex);
+
+                        if (oContext) {
+                            var oSelectedData = oContext.getObject(); // Get the selected data object
+
+                            // Check if ID and parentKey_ID are present
+                            if (oSelectedData.ID && oSelectedData.parentKey_ID) {
+                                var sDeletePath = `/ROK_CTZN_Employee_ReportT(parentKey_ID=${oSelectedData.parentKey_ID},ID=${oSelectedData.ID})`;
+
+                                // Perform the delete operation
+                                oDataServiceModel.remove(sDeletePath, {
+                                    success: function () {
+                                        oTable.getBinding("rows").refresh(); // Refresh the table to reflect changes
+                                        that.fetchRkoctznReportData();
+                                    },
+                                    error: function (oError) {
+                                        console.error(oError); // Log error details for debugging
+                                        MessageToast.show("Error deleting entry.");
+                                    }
+                                });
+                            } else {
+                                MessageToast.show("Selected entry does not have a valid ID and parentKey_ID.");
+                            }
+                        }
+                    });
+                } else {
+                    MessageToast.show("No item selected.");
+                }
+                MessageBox.success("Selected item deleted successfully.");
+
+            },
+            onAddCalculation: function () {
+                debugger
+                var oLocalModelCalculation = this.getView().getModel("CalculationReportModel");
+                let oModelCalculationData = oLocalModelCalculation.getData();
+                oModelCalculationData.push({
+                    companyName: "",
+                    nameOfGoodService: "",
+                    UOM: "",
+                    volumeOfPurchase: 0.0,
+                    actualVolumeExVat: 0.0,
+
+                    localContentInTenge: 0.0,
+
+                    localContentInGoodsPercentage: 0.0,
+
+                    localContentInWorkPercentage: 0.0,
+
+                    localGoodsManufacturer: "",
+                    localGoodsManufacturerBin: "",
+                    GWSCode: "",
+                    CT_KZ_Cert_Num: "",
+                    dateOfCertIssue: "",
+                    regionOfManufacturer: "",
+                })
+
+                oLocalModelCalculation.setData(oModelCalculationData);
+                oLocalModelCalculation.refresh()
+
+            },
+
+            onSaveCalculation: function () {
+                debugger;
+                let oDataServiceModel = this.getOwnerComponent().getModel();
+                var oLocalModelCalculation = this.getView().getModel("CalculationReportModel"); // The JSON model containing the data to be saved           
+                var aCalculationModelData = oLocalModelCalculation.getData(); // Get all data from the JSON model           
+                var that = this;
+
+                // Counters for tracking completion
+                let totalEntries = aCalculationModelData.length;
+                let completedEntries = 0;
+                let errorsOccurred = false;
+
+                // Helper function to check completion and show message
+                function checkCompletion() {
+                    if (completedEntries === totalEntries) {
+                        if (!errorsOccurred) {
+                            MessageBox.success("Items updated successfully.");
+                        } else {
+                            MessageBox.error("Some items failed to update.");
+                        }
+                    }
+                }
+
+                aCalculationModelData.forEach(function (oSelectedData) {
+                    if (oSelectedData.ID && oSelectedData.parentKey_ID) {
+                        // Entry exists in the backend, perform update
+                        var sPath = `/LC_CalculationReportT(parentKey_ID=${oSelectedData.parentKey_ID},ID=${oSelectedData.ID})`;
+
+                        oDataServiceModel.update(sPath, oSelectedData, {
+                            success: function () {
+                                completedEntries++;
+                                checkCompletion();
+                            },
+                            error: function (oError) {
+                                completedEntries++; // Increment the counter on error
+                                errorsOccurred = true; // Set error flag to true
+                                MessageToast.show("Error updating line item.");
+                                checkCompletion();
+                            }
+                        });
+                    } else {
+                        // Entry might be new, check if it's in-memory (not yet saved to backend)
+                        if (oSelectedData.isNew) {
+                            that._addCalculationItem(oDataServiceModel, oSelectedData.parentKey_ID, oSelectedData, function () {
+                                completedEntries++;
+                                checkCompletion();
+                            }, function () {
+                                completedEntries++;
+                                errorsOccurred = true;
+                                checkCompletion();
+                            });
+                        } else {
+                            // Check if header exists before creating a new entry
+                            oDataServiceModel.read("/LC_HeaderT", {
+                                filters: [
+                                    new sap.ui.model.Filter("vendorID", sap.ui.model.FilterOperator.EQ, "VEN11"),
+                                    new sap.ui.model.Filter("contractNo", sap.ui.model.FilterOperator.EQ, "CON01")
+                                ],
+                                success: function (oData) {
+                                    if (oData.results && oData.results.length > 0) {
+                                        var headerID = oData.results[0].ID; // Assume the header ID is stored in 'ID'
+                                        that._addCalculationItem(oDataServiceModel, headerID, oSelectedData, function () {
+                                            completedEntries++;
+                                            checkCompletion();
+                                        }, function () {
+                                            completedEntries++;
+                                            errorsOccurred = true;
+                                            checkCompletion();
+                                        });
+                                    } else {
+                                        that._createNewCalculationHeader(oDataServiceModel, oSelectedData, function () {
+                                            completedEntries++;
+                                            checkCompletion();
+                                        }, function () {
+                                            completedEntries++;
+                                            errorsOccurred = true;
+                                            checkCompletion();
+                                        });
+                                    }
+                                },
+                                error: function (oError) {
+                                    completedEntries++;
+                                    errorsOccurred = true;
+                                    checkCompletion();
+                                }
+                            });
+                        }
+                    }
+                });
+            },
+
+            _createNewCalculationHeader: function (oDataServiceModel, oSelectedData, successCallback, errorCallback) {
+                var that = this;
+                var headerEntry = {
+                    lcReport: [oSelectedData], // Initialize with the first line item
+                    vendorID: "VEN11",
+                    contractNo: "CON01",
+                    reportingPeriod: "2024-08-08T00:00:00",
+                    status: "Draft"
+                };
+
+                oDataServiceModel.create("/LC_HeaderT", headerEntry, {
+                    success: function () {
+                        successCallback();
+                        that.fetchCalculationReportData();
+                    },
+                    error: function (oError) {
+                        errorCallback();
+                    }
+                });
+            },
+
+            _addCalculationItem: function (oDataServiceModel, headerID, oSelectedData, successCallback, errorCallback) {
+                var that = this;
+                // Construct path for adding line item to the existing header
+                var path = `/LC_HeaderT('${headerID}')/lcReport`;
+                oDataServiceModel.create(path, oSelectedData, {
+                    success: function () {
+                        successCallback();
+                        that.fetchCalculationReportData();
+                    },
+                    error: function (oError) {
+                        errorCallback();
+                    }
+                });
+            },
+
+
+
+            fetchCalculationReportData: function () {
+                let oDataServiceModel = this.getOwnerComponent().getModel(); // Get the OData model
+                let oLocalModelCalculation = this.getView().getModel("CalculationReportModel"); // Get your JSON model
+
+                oDataServiceModel.read("/LC_CalculationReportT", {
+                    success: function (oData) {
+                        oLocalModelCalculation.setData(oData.results);
+                        console.log(oData.results)
+                        oLocalModelCalculation.refresh();
+                    },
+                    error: function (oError) {
+                        sap.m.MessageToast.show("Error fetching data from OData service.");
+                    }
+                });
+            },
+
+
+            onDeleteCalculation: function () {
+                var that = this;
+                var oTable = this.byId("idcalculationtable"); // Use the correct table ID
+                var oDataServiceModel = this.getOwnerComponent().getModel();
+                var aSelectedIndices = oTable.getSelectedIndices();
+
+                // Check if any item is selected
+                if (aSelectedIndices.length > 0) {
+                    // Iterate over all selected indices
+                    aSelectedIndices.forEach(function (iSelectedIndex) {
+                        var oContext = oTable.getContextByIndex(iSelectedIndex);
+
+                        if (oContext) {
+                            var oSelectedData = oContext.getObject(); // Get the selected data object
+
+                            // Check if ID and parentKey_ID are present
+                            if (oSelectedData.ID && oSelectedData.parentKey_ID) {
+                                var sDeletePath = `/LC_CalculationReportT(parentKey_ID=${oSelectedData.parentKey_ID},ID=${oSelectedData.ID})`;
+
+                                // Perform the delete operation
+                                oDataServiceModel.remove(sDeletePath, {
+                                    success: function () {
+                                        oTable.getBinding("rows").refresh(); // Refresh the table to reflect changes
+                                        that.fetchCalculationReportData();
+                                    },
+                                    error: function (oError) {
+                                        console.error(oError); // Log error details for debugging
+                                        MessageToast.show("Error deleting entry.");
+                                    }
+                                });
+                            } else {
+                                MessageToast.show("Selected entry does not have a valid ID and parentKey_ID.");
+                            }
+                        }
+                    });
+                } else {
+                    MessageToast.show("No item selected.");
+                }
+                MessageBox.success("Selected item deleted successfully.");
+
+            },
 
         });
     });
