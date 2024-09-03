@@ -21,11 +21,14 @@ sap.ui.define([
                 this.getView().setModel(RokctznemployeeModel, "RokctznemployeeModel")
                 let CalculationReportModel = new JSONModel([]);
                 this.getView().setModel(CalculationReportModel, "CalculationReportModel")
+                let SubmitcommentsModel = new JSONModel([]);
+                this.getView().setModel(SubmitcommentsModel, "SubmitcommentsModel")
                 this.fetchGWSDataFromODataService();
                 this.fetchContractorReportData();
                 this.fetchEmployeeReportData();
                 this.fetchRkoctznReportData();
                 this.fetchCalculationReportData();
+                this.fetchFeedbackCommentsData();
 
 
             },
@@ -1348,6 +1351,87 @@ sap.ui.define([
                     { label: 'Region Of Manufacturer', property: 'regionOfManufacturer', type: 'string' }
                 ];
             },
+            onSubmit: function() {
+                const oModel = this.getOwnerComponent().getModel();
+                const oPayload = {
+                    to: "shobhittyagimit@gmail.com",  
+                    subject: "SAP MAIL", 
+                    supplierID: "123456" 
+                };
+                console.log("Payload successfully send ", oPayload )
+            
+                
+                oModel.create("/sendNotification", oPayload, {
+                    success: function() {
+                        sap.m.MessageToast.show("Notification sent successfully!");
+                    },
+                    error: function(oError) {
+                        sap.m.MessageToast.show("Failed to send notification: ");
+                        
+                    }
+                });
+            },
+            onSubmitComments: function() {
+                var that=this
+                debugger;
+                let oDataServiceModel = this.getOwnerComponent().getModel(); // Assuming this is the OData service model
+                let sComment = this.getView().byId("commentsTextArea").getValue(); // Retrieve comment from the text area
+              
+            
+                // Check if comment and parentKeyID are available
+                if (!sComment) {
+                    MessageBox.error("Please enter a comment.");
+                    return;
+                }
+                
+              let sComments =[{
+                Comment:sComment
+              }
+
+              ]
+            
+                // Create a new entry
+                let headerEntry = {
+                    comments: sComments, // Initialize with the first line item
+                    vendorID: "VEN11",
+                    contractNo: "CON01",
+                    reportingPeriod: "2024-08-08T00:00:00",
+                    status: "Draft"
+                };
+
+                oDataServiceModel.create("/LC_HeaderT", headerEntry, {
+                    success: function () {
+                        
+                       sap.m.MessageBox.success("Save Successfully")
+                       that.fetchFeedbackCommentsData();
+                       that.getView().byId("commentsTextArea").setValue("");
+                       
+                    },
+                    error: function (oError) {
+                        sap.m.MessageBox("Error")
+                    }
+                });
+            },
+                  
+            
+            
+            
+            fetchFeedbackCommentsData: function () {
+                let oDataServiceModel = this.getOwnerComponent().getModel(); // Get the OData model
+                let oLocalModelCalculation = this.getView().getModel("SubmitcommentsModel"); // Get your JSON model
+
+                oDataServiceModel.read("/FeedbackReviewLogs", {
+                    success: function (oData) {
+                        oLocalModelCalculation.setData(oData.results);
+                        console.log("hello",oData.results)
+                        oLocalModelCalculation.refresh();
+                    },
+                    error: function (oError) {
+                        sap.m.MessageToast.show("Error fetching data from OData service.");
+                    }
+                });
+            },
+
             
 
         });

@@ -1,282 +1,477 @@
-<mvc:View controllerName="com.kpo.supplierreport.controller.View1"
+<mvc:View
+    controllerName="com.kpo.supplierreport.controller.View1"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:f="sap.f"
     xmlns:form="sap.ui.layout.form"
     xmlns:table="sap.ui.table"
-    xmlns:time="sap.suite.ui.commons">
+    xmlns:time="sap.suite.ui.commons"
+>
     <Page showHeader="false">
         <content>
-            <f:SidePanel id="mySidePanel" sidePanelResizable="true" toggle="onToggle">
+            <f:SidePanel
+                id="mySidePanel"
+                sidePanelResizable="true"
+                toggle="onToggle"
+            >
                 <f:mainContent>
-                    <form:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" labelSpanXL="2" labelSpanL="2" labelSpanM="2" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="5" emptySpanL="5" emptySpanM="5" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+                    <form:SimpleForm
+                        id="SimpleFormChange354"
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        labelSpanXL="2"
+                        labelSpanL="2"
+                        labelSpanM="2"
+                        labelSpanS="12"
+                        adjustLabelSpan="false"
+                        emptySpanXL="5"
+                        emptySpanL="5"
+                        emptySpanM="5"
+                        emptySpanS="0"
+                        columnsXL="1"
+                        columnsL="1"
+                        columnsM="1"
+                        singleContainerFullSize="false"
+                    >
                         <Label text="Contract Number" />
-                        <Input value="CW427" editable="false" />
+                        <Input
+                            value="CW427"
+                            editable="false"
+                        />
 
                         <Label text="Reporting Period" />
-                        <Input value="Quarter 3, 2024" editable="false" />
+                        <Input
+                            value="Quarter 3, 2024"
+                            editable="false"
+                        />
 
-                        <Label text="Status" required="true" />
-                        <ObjectStatus text="Draft" state="Error" />
+                        <Label
+                            text="Status"
+                            required="true"
+                        />
+                        <ObjectStatus
+                            text="Draft"
+                            state="Error"
+                        />
                     </form:SimpleForm>
                     <IconTabBar>
                         <items>
                             <!-- First Tab -->
-                            <IconTabFilter text="Purchase of goods, work and services Report">
-                                <table:Table id="idGoodsWorkServicePurchaseTable" rows="{oGoodsWorkServicePurchaseModel>/}">
+                            <IconTabFilter
+                                text="Purchase of goods, work and services Report"
+                            >
+                                <table:Table
+                                    id="idGoodsWorkServicePurchaseTable"
+                                    rows="{oGoodsWorkServicePurchaseModel>/}"
+                                >
                                     <table:extension>
                                         <OverflowToolbar>
                                             <ToolbarSpacer />
-                                            <Button enabled="false" text="E-Signature" type="Emphasized" />
+                                            <Button
+                                                enabled="false"
+                                                text="E-Signature"
+                                                type="Emphasized"
+                                            />
 
-                                            <Button enabled="true" text="Download as CSV" type="Emphasized" press="onDownloadGWSCsv" />
-                                            <Button enabled="false" text="Download as PDF" type="Emphasized" />
-                                            <Button icon="sap-icon://save" text="Save Table Entries" type="Success" press="onSaveTable" />
-                                            <Button icon="sap-icon://add" text="Add New Row" press="onAddRow" />
-                                            <Button icon="sap-icon://delete" text="Delete Row" press="onDeleteRow" />
+                                            <Button
+                                                enabled="true"
+                                                text="Download as CSV"
+                                                type="Emphasized"
+                                                press="onDownloadGWSCsv"
+                                            />
+                                            <Button
+                                                enabled="false"
+                                                text="Download as PDF"
+                                                type="Emphasized"
+                                            />
+                                            <Button
+                                                icon="sap-icon://save"
+                                                text="Save Table Entries"
+                                                type="Success"
+                                                press="onSaveTable"
+                                            />
+                                            <Button
+                                                icon="sap-icon://add"
+                                                text="Add New Row"
+                                                press="onAddRow"
+                                            />
+                                            <Button
+                                                icon="sap-icon://delete"
+                                                text="Delete Row"
+                                                press="onDeleteRow"
+                                            />
                                         </OverflowToolbar>
                                     </table:extension>
                                     <table:columns>
                                         <table:Column width="8rem">
                                             <Label text="Purchase Code" />
                                             <table:template>
-                                                <Input value="{oGoodsWorkServicePurchaseModel>purchaseCode}" />
+                                                <Input
+                                                    value="{oGoodsWorkServicePurchaseModel>purchaseCode}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="Purchase Method" />
                                             <table:template>
-                                                <Input value="{oGoodsWorkServicePurchaseModel>purchaseMethod}" />
+                                                <Input
+                                                    value="{oGoodsWorkServicePurchaseModel>purchaseMethod}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="Contract No." />
                                             <table:template>
-                                                <Input value="{oGoodsWorkServicePurchaseModel>contractNumber}" />
+                                                <Input
+                                                    value="{oGoodsWorkServicePurchaseModel>contractNumber}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="Contract Subject" />
                                             <table:template>
-                                                <Input value="{oGoodsWorkServicePurchaseModel>contractSubject}" />
+                                                <Input
+                                                    value="{oGoodsWorkServicePurchaseModel>contractSubject}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="10rem">
                                             <Label text="Contract Award Date" />
                                             <table:template>
-                                                <DatePicker value="{oGoodsWorkServicePurchaseModel>contractAwardDate}" />
+                                                <DatePicker
+                                                    value="{oGoodsWorkServicePurchaseModel>contractAwardDate}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <!-- Add more columns as needed -->
                                         <table:Column width="10rem">
-                                            <Label text="Contract Expire Date" />
+                                            <Label
+                                                text="Contract Expire Date"
+                                            />
                                             <table:template>
-                                                <DatePicker value="{oGoodsWorkServicePurchaseModel>contractExpireDate}" />
+                                                <DatePicker
+                                                    value="{oGoodsWorkServicePurchaseModel>contractExpireDate}"
+                                                />
                                             </table:template>
                                         </table:Column>
 
                                         <table:Column width="8rem">
-                                            <Label text="Total Contract Value" />
+                                            <Label
+                                                text="Total Contract Value"
+                                            />
                                             <table:template>
-                                                <Input value="{path:'oGoodsWorkServicePurchaseModel>totalContractValueWOVAT', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
+                                                <Input
+                                                    value="{path:'oGoodsWorkServicePurchaseModel>totalContractValueWOVAT', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}"
+                                                />
                                             </table:template>
                                         </table:Column>
 
                                         <table:Column width="8rem">
                                             <Label text="Legal Entity" />
                                             <table:template>
-                                                <Input value="{oGoodsWorkServicePurchaseModel>legalEntity}" />
+                                                <Input
+                                                    value="{oGoodsWorkServicePurchaseModel>legalEntity}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="Country" />
                                             <table:template>
-                                                <Input value="{oGoodsWorkServicePurchaseModel>country}" />
+                                                <Input
+                                                    value="{oGoodsWorkServicePurchaseModel>country}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="Supplier Name" />
                                             <table:template>
-                                                <Input value="{oGoodsWorkServicePurchaseModel>supplierName}" />
+                                                <Input
+                                                    value="{oGoodsWorkServicePurchaseModel>supplierName}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="10rem">
                                             <Label text="BIN" />
                                             <table:template>
-                                                <Input value="{oGoodsWorkServicePurchaseModel>BIN}" />
+                                                <Input
+                                                    value="{oGoodsWorkServicePurchaseModel>BIN}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="10rem">
                                             <Label text="Address" />
                                             <table:template>
-                                                <Input value="{oGoodsWorkServicePurchaseModel>supplierAddress}" />
+                                                <Input
+                                                    value="{oGoodsWorkServicePurchaseModel>supplierAddress}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="GWS Code" />
                                             <table:template>
-                                                <Input value="{oGoodsWorkServicePurchaseModel>GWSCode}" />
+                                                <Input
+                                                    value="{oGoodsWorkServicePurchaseModel>GWSCode}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="10rem">
                                             <Label text="GWS desc." />
                                             <table:template>
-                                                <Input value="{oGoodsWorkServicePurchaseModel>nameOfGoodWorkService}" />
+                                                <Input
+                                                    value="{oGoodsWorkServicePurchaseModel>nameOfGoodWorkService}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="UOM" />
                                             <table:template>
-                                                <Input value="{oGoodsWorkServicePurchaseModel>UOM}" />
+                                                <Input
+                                                    value="{oGoodsWorkServicePurchaseModel>UOM}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="Scope" />
                                             <table:template>
-                                                <Input value="{oGoodsWorkServicePurchaseModel>procurementScope}" />
+                                                <Input
+                                                    value="{oGoodsWorkServicePurchaseModel>procurementScope}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="Actual Amount" />
                                             <table:template>
-                                                <Input value="{path:'oGoodsWorkServicePurchaseModel>actualAmountExVat', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
+                                                <Input
+                                                    value="{path:'oGoodsWorkServicePurchaseModel>actualAmountExVat', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="Registration No." />
                                             <table:template>
-                                                <Input value="{oGoodsWorkServicePurchaseModel>registrationNumber}" />
+                                                <Input
+                                                    value="{oGoodsWorkServicePurchaseModel>registrationNumber}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="LC Goods Manuf. BIN" />
                                             <table:template>
-                                                <Input value="{oGoodsWorkServicePurchaseModel>localGoodsManufacturerBin}" />
+                                                <Input
+                                                    value="{oGoodsWorkServicePurchaseModel>localGoodsManufacturerBin}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="CT KZ Cert. Num." />
                                             <table:template>
-                                                <Input value="{oGoodsWorkServicePurchaseModel>CT_KZ_Cert_Num}" />
+                                                <Input
+                                                    value="{oGoodsWorkServicePurchaseModel>CT_KZ_Cert_Num}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="10rem">
                                             <Label text="Date of Cert. Issue" />
                                             <table:template>
-                                                <DatePicker value="{oGoodsWorkServicePurchaseModel>dateOfCertIssue}" />
+                                                <DatePicker
+                                                    value="{oGoodsWorkServicePurchaseModel>dateOfCertIssue}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="% of LC in Goods" />
                                             <table:template>
-                                                <Input value="{path:'oGoodsWorkServicePurchaseModel>localContentInGoodsPercentage', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
+                                                <Input
+                                                    value="{path:'oGoodsWorkServicePurchaseModel>localContentInGoodsPercentage', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="% of LC in WS" />
                                             <table:template>
-                                                <Input value="{path:'oGoodsWorkServicePurchaseModel>localContentInWorkPercentage', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
+                                                <Input
+                                                    value="{path:'oGoodsWorkServicePurchaseModel>localContentInWorkPercentage', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                     </table:columns>
                                 </table:Table>
+                               
+                                <Label text="Comments"/>
+                                    <TextArea
+                                        id="commentsTextArea"
+                                        width="100%"
+                                        rows="4"
+                                        placeholder="Enter your comments here..."
+                                    />
+                                    <Button
+                                        text="Submit Comments"
+                                        type="Emphasized"
+                                        press="onSubmitComments"
+                                    />
+                                
                             </IconTabFilter>
 
                             <!-- Second Tab -->
                             <IconTabFilter text="LC Calculation Report">
-                                <table:Table id="idcalculationtable" rows="{CalculationReportModel>/}">
+                                <table:Table
+                                    id="idcalculationtable"
+                                    rows="{CalculationReportModel>/}"
+                                >
                                     <table:extension>
                                         <OverflowToolbar>
                                             <ToolbarSpacer />
-                                            <Button enabled="true" text="Download as CSV" type="Emphasized" press="onDownloadCalculationCsv" />
-                                            <Button icon="sap-icon://save" text="Save Table Entries" type="Success" press="onSaveCalculation" />
-                                            <Button icon="sap-icon://add" text="Add New Row" press="onAddCalculation" />
-                                            <Button icon="sap-icon://delete" text="Delete Row" press="onDeleteCalculation" />
+                                            <Button
+                                                enabled="true"
+                                                text="Download as CSV"
+                                                type="Emphasized"
+                                                press="onDownloadCalculationCsv"
+                                            />
+                                            <Button
+                                                icon="sap-icon://save"
+                                                text="Save Table Entries"
+                                                type="Success"
+                                                press="onSaveCalculation"
+                                            />
+                                            <Button
+                                                icon="sap-icon://add"
+                                                text="Add New Row"
+                                                press="onAddCalculation"
+                                            />
+                                            <Button
+                                                icon="sap-icon://delete"
+                                                text="Delete Row"
+                                                press="onDeleteCalculation"
+                                            />
                                         </OverflowToolbar>
                                     </table:extension>
                                     <table:columns>
                                         <table:Column width="8rem">
                                             <Label text="Company Name" />
                                             <table:template>
-                                                <Input value="{CalculationReportModel>companyName}" />
+                                                <Input
+                                                    value="{CalculationReportModel>companyName}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
-                                            <Label text="Name Of Good Service" />
+                                            <Label
+                                                text="Name Of Good Service"
+                                            />
                                             <table:template>
-                                                <Input value="{CalculationReportModel>nameOfGoodService}" />
+                                                <Input
+                                                    value="{CalculationReportModel>nameOfGoodService}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="UOM" />
                                             <table:template>
-                                                <Input value="{CalculationReportModel>UOM}" />
+                                                <Input
+                                                    value="{CalculationReportModel>UOM}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="Volume Of Purchase" />
                                             <table:template>
-                                                <Input value="{path:'CalculationReportModel>volumeOfPurchase', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
+                                                <Input
+                                                    value="{path:'CalculationReportModel>volumeOfPurchase', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
-                                            <Label text="Actual Volume Ex VAT" />
+                                            <Label
+                                                text="Actual Volume Ex VAT"
+                                            />
                                             <table:template>
-                                                <Input value="{path:'CalculationReportModel>actualVolumeExVat', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
+                                                <Input
+                                                    value="{path:'CalculationReportModel>actualVolumeExVat', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
-                                            <Label text="Local Content In TengeT" />
+                                            <Label
+                                                text="Local Content In TengeT"
+                                            />
                                             <table:template>
-                                                <Input value="{path:'CalculationReportModel>localContentInTenge', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
+                                                <Input
+                                                    value="{path:'CalculationReportModel>localContentInTenge', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
-                                            <Label text="Local Content In Goods Percentage" />
+                                            <Label
+                                                text="Local Content In Goods Percentage"
+                                            />
                                             <table:template>
-                                                <Input value="{path:'CalculationReportModel>localContentInGoodsPercentage', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
+                                                <Input
+                                                    value="{path:'CalculationReportModel>localContentInGoodsPercentage', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
-                                            <Label text="Local Content In Work Percentage" />
+                                            <Label
+                                                text="Local Content In Work Percentage"
+                                            />
                                             <table:template>
-                                                <Input value="{path:'CalculationReportModel>localContentInWorkPercentage', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
+                                                <Input
+                                                    value="{path:'CalculationReportModel>localContentInWorkPercentage', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
-                                            <Label text="Local Goods Manufacturer" />
+                                            <Label
+                                                text="Local Goods Manufacturer"
+                                            />
                                             <table:template>
-                                                <Input value="{CalculationReportModel>localGoodsManufacturer}" />
+                                                <Input
+                                                    value="{CalculationReportModel>localGoodsManufacturer}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
-                                            <Label text="Local Goods Manufacturer Bin" />
+                                            <Label
+                                                text="Local Goods Manufacturer Bin"
+                                            />
                                             <table:template>
-                                                <Input value="{CalculationReportModel>localGoodsManufacturerBin}" />
+                                                <Input
+                                                    value="{CalculationReportModel>localGoodsManufacturerBin}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="GWS Code" />
                                             <table:template>
-                                                <Input value="{CalculationReportModel>GWSCode}" />
+                                                <Input
+                                                    value="{CalculationReportModel>GWSCode}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="CT KZ Cert Num" />
                                             <table:template>
-                                                <Input value="{CalculationReportModel>CT_KZ_Cert_Num}"/>
+                                                <Input
+                                                    value="{CalculationReportModel>CT_KZ_Cert_Num}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
                                             <Label text="Date Of CertIssue" />
                                             <table:template>
-                                                <Input value="{CalculationReportModel>dateOfCertIssue}" />
+                                                <Input
+                                                    value="{CalculationReportModel>dateOfCertIssue}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column width="8rem">
-                                            <Label text="Region Of Manufacturer" />
+                                            <Label
+                                                text="Region Of Manufacturer"
+                                            />
                                             <table:template>
-                                                <Input value="{CalculationReportModel>regionOfManufacturer}" />
+                                                <Input
+                                                    value="{CalculationReportModel>regionOfManufacturer}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <!-- Add more columns as needed -->
@@ -285,15 +480,38 @@
                             </IconTabFilter>
 
                             <!-- Third Tab -->
-                            <IconTabFilter text="Number of contractor employee report">
-                                <table:Table id="idcontractortable" rows="{ContractorReportModel>/}">
+                            <IconTabFilter
+                                text="Number of contractor employee report"
+                            >
+                                <table:Table
+                                    id="idcontractortable"
+                                    rows="{ContractorReportModel>/}"
+                                >
                                     <table:extension>
                                         <OverflowToolbar>
                                             <ToolbarSpacer />
-                                            <Button enabled="true" text="Download as CSV" type="Emphasized" press="onDownloadContractorCsv" />
-                                            <Button icon="sap-icon://save" text="Save Table Entries" type="Success" press="onSaveContractorReportT" />
-                                            <Button icon="sap-icon://add" text="Add New Row" press="onAddContractorReportT" />
-                                            <Button icon="sap-icon://delete" text="Delete Row" press="onDeleteContractorReportT" />
+                                            <Button
+                                                enabled="true"
+                                                text="Download as CSV"
+                                                type="Emphasized"
+                                                press="onDownloadContractorCsv"
+                                            />
+                                            <Button
+                                                icon="sap-icon://save"
+                                                text="Save Table Entries"
+                                                type="Success"
+                                                press="onSaveContractorReportT"
+                                            />
+                                            <Button
+                                                icon="sap-icon://add"
+                                                text="Add New Row"
+                                                press="onAddContractorReportT"
+                                            />
+                                            <Button
+                                                icon="sap-icon://delete"
+                                                text="Delete Row"
+                                                press="onDeleteContractorReportT"
+                                            />
                                         </OverflowToolbar>
                                     </table:extension>
 
@@ -301,25 +519,35 @@
                                         <table:Column>
                                             <Label text="Company Name" />
                                             <table:template>
-                                                <Input value="{ContractorReportModel>companyName}" />
+                                                <Input
+                                                    value="{ContractorReportModel>companyName}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column>
                                             <Label text="Reporting Period" />
                                             <table:template>
-                                                <Input value="{ContractorReportModel>reportingPeriod}" />
+                                                <Input
+                                                    value="{ContractorReportModel>reportingPeriod}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column>
                                             <Label text="Total Employee" />
                                             <table:template>
-                                                <Input value="{ContractorReportModel>totalEmployee}" />
+                                                <Input
+                                                    value="{ContractorReportModel>totalEmployee}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column>
-                                            <Label text="ROK Citizen Employee" />
+                                            <Label
+                                                text="ROK Citizen Employee"
+                                            />
                                             <table:template>
-                                                <Input value="{ContractorReportModel>ROK_ctzn_Employee}" />
+                                                <Input
+                                                    value="{ContractorReportModel>ROK_ctzn_Employee}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                     </table:columns>
@@ -328,39 +556,72 @@
 
                             <!-- Fourth Tab -->
                             <IconTabFilter text=" RoK citizen employees Report">
-                                <table:Table id="idRokctznemployeetable" rows="{RokctznemployeeModel>/}">
+                                <table:Table
+                                    id="idRokctznemployeetable"
+                                    rows="{RokctznemployeeModel>/}"
+                                >
                                     <table:extension>
                                         <OverflowToolbar>
                                             <ToolbarSpacer />
-                                            <Button enabled="true" text="Download as CSV" type="Emphasized" press="onDownloadRokctznemployeCsv" />
-                                            <Button icon="sap-icon://save" text="Save Table Entries" type="Success" press="onSaveRokctnemployee" />
-                                            <Button icon="sap-icon://add" text="Add New Row" press="onAddRokCtznEmployee" />
-                                            <Button icon="sap-icon://delete" text="Delete Row" press="onDeleteRokctnemployee" />
+                                            <Button
+                                                enabled="true"
+                                                text="Download as CSV"
+                                                type="Emphasized"
+                                                press="onDownloadRokctznemployeCsv"
+                                            />
+                                            <Button
+                                                icon="sap-icon://save"
+                                                text="Save Table Entries"
+                                                type="Success"
+                                                press="onSaveRokctnemployee"
+                                            />
+                                            <Button
+                                                icon="sap-icon://add"
+                                                text="Add New Row"
+                                                press="onAddRokCtznEmployee"
+                                            />
+                                            <Button
+                                                icon="sap-icon://delete"
+                                                text="Delete Row"
+                                                press="onDeleteRokctnemployee"
+                                            />
                                         </OverflowToolbar>
                                     </table:extension>
                                     <table:columns>
                                         <table:Column>
                                             <Label text="Company Name" />
                                             <table:template>
-                                                <Input value="{RokctznemployeeModel>companyName}" />
+                                                <Input
+                                                    value="{RokctznemployeeModel>companyName}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column>
                                             <Label text="Reporting Period" />
                                             <table:template>
-                                                <Input value="{RokctznemployeeModel>reportingPeriod}" />
+                                                <Input
+                                                    value="{RokctznemployeeModel>reportingPeriod}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column>
-                                            <Label text="Total Payroll Employee Percentage" />
+                                            <Label
+                                                text="Total Payroll Employee Percentage"
+                                            />
                                             <table:template>
-                                                <Input value="{path:'RokctznemployeeModel>totalPayrollEmployeePercentage', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
+                                                <Input
+                                                    value="{path:'RokctznemployeeModel>totalPayrollEmployeePercentage', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column>
-                                            <Label text="Share of RoK Citizen Employee Payroll" />
+                                            <Label
+                                                text="Share of RoK Citizen Employee Payroll"
+                                            />
                                             <table:template>
-                                                <Input value="{path:'RokctznemployeeModel>share_of_rok_ctzn_emp_payroll', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}" />
+                                                <Input
+                                                    value="{path:'RokctznemployeeModel>share_of_rok_ctzn_emp_payroll', type: 'sap.ui.model.type.Float', formatOptions: {minFractionDigits: 2, maxFractionDigits: 2}}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                     </table:columns>
@@ -368,46 +629,83 @@
                             </IconTabFilter>
 
                             <!-- Fifth Tab -->
-                            <IconTabFilter text="Number of Employees Involved in KPO Activities in WKO Report">
-                                <table:Table id="idEmployeeInWKOTtable" rows="{EmployeeInWKOTModel>/}">
+                            <IconTabFilter
+                                text="Number of Employees Involved in KPO Activities in WKO Report"
+                            >
+                                <table:Table
+                                    id="idEmployeeInWKOTtable"
+                                    rows="{EmployeeInWKOTModel>/}"
+                                >
                                     <table:extension>
                                         <OverflowToolbar>
                                             <ToolbarSpacer />
-                                            <Button enabled="true" text="Download as CSV" type="Emphasized" press="onDownloadEmployeeInWKOTCsv" />
-                                            <Button icon="sap-icon://save" text="Save Table Entries" type="Success" press="onSaveEmployeeInWKOT" />
-                                            <Button icon="sap-icon://add" text="Add New Row" press="onAddEmployeeInWKOT" />
-                                            <Button icon="sap-icon://delete" text="Delete Row" press="onDeleteEmployeeInWKOT" />
+                                            <Button
+                                                enabled="true"
+                                                text="Download as CSV"
+                                                type="Emphasized"
+                                                press="onDownloadEmployeeInWKOTCsv"
+                                            />
+                                            <Button
+                                                icon="sap-icon://save"
+                                                text="Save Table Entries"
+                                                type="Success"
+                                                press="onSaveEmployeeInWKOT"
+                                            />
+                                            <Button
+                                                icon="sap-icon://add"
+                                                text="Add New Row"
+                                                press="onAddEmployeeInWKOT"
+                                            />
+                                            <Button
+                                                icon="sap-icon://delete"
+                                                text="Delete Row"
+                                                press="onDeleteEmployeeInWKOT"
+                                            />
                                         </OverflowToolbar>
                                     </table:extension>
                                     <table:columns>
                                         <table:Column>
                                             <Label text="Company Name" />
                                             <table:template>
-                                                <Input value="{EmployeeInWKOTModel>companyName}" />
+                                                <Input
+                                                    value="{EmployeeInWKOTModel>companyName}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column>
                                             <Label text="Reporting Period" />
                                             <table:template>
-                                                <Input value="{EmployeeInWKOTModel>reportingPeriod}" />
+                                                <Input
+                                                    value="{EmployeeInWKOTModel>reportingPeriod}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column>
                                             <Label text="Total Employee" />
                                             <table:template>
-                                                <Input value="{EmployeeInWKOTModel>totalEmployee}" />
+                                                <Input
+                                                    value="{EmployeeInWKOTModel>totalEmployee}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column>
-                                            <Label text="RoK Employee Involved In WKO" />
+                                            <Label
+                                                text="RoK Employee Involved In WKO"
+                                            />
                                             <table:template>
-                                                <Input value="{EmployeeInWKOTModel>rokEmployeeInvolvedInWKO}" />
+                                                <Input
+                                                    value="{EmployeeInWKOTModel>rokEmployeeInvolvedInWKO}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                         <table:Column>
-                                            <Label text="Foreign Employee Involved In WKO" />
+                                            <Label
+                                                text="Foreign Employee Involved In WKO"
+                                            />
                                             <table:template>
-                                                <Input value="{EmployeeInWKOTModel>foreignEmpInvolvedInWKO}" />
+                                                <Input
+                                                    value="{EmployeeInWKOTModel>foreignEmpInvolvedInWKO}"
+                                                />
                                             </table:template>
                                         </table:Column>
                                     </table:columns>
@@ -415,29 +713,53 @@
                             </IconTabFilter>
                         </items>
                     </IconTabBar>
+                    
                 </f:mainContent>
 
                 <f:items>
-                    <f:SidePanelItem icon="sap-icon://feedback" text="Review Comments (2)">
+                    <f:SidePanelItem
+                        icon="sap-icon://feedback"
+                        text="Review Comments"
+                    >
                         <VBox>
-                            <time:Timeline id="idTimeline" enableDoubleSided="true" groupBy="HireDate" growingThreshold="0" filterTitle="Job Title" sortOldestFirst="true" content="{/Employees}">
+                         
+
+                            <time:Timeline
+                                id="idTimeline"
+                                enableDoubleSided="true"
+                                groupBy="CreatedAt"  
+                                sortOldestFirst="true"
+                                content="{SubmitcommentsModel>/}"
+                            >
                                 <time:content>
-                                    <time:TimelineItem id="idTemplateItem" dateTime="{HireDate}" title="{JobTitle}" userNameClickable="true" userNameClicked="onUserNameClick" select="onPressItems" userPicture="{Photo}" text="{JobResponsibilities}" userName="{Name}" filterValue="{JobTitle}" icon="{Icon}">
-                                    </time:TimelineItem>
+                                    <time:TimelineItem
+                                        id="idTemplateItem"
+                                        dateTime="{SubmitcommentsModel>createdAt}" 
+                                        title="Review Comments" 
+                                        userName="{SubmitcommentsModel>createdBy}"  
+                                        text="{SubmitcommentsModel>Comment}" 
+                                    />
                                 </time:content>
                             </time:Timeline>
-                        
                         </VBox>
                     </f:SidePanelItem>
-                    	<f:SidePanelItem icon="" text="" enabled="false" />
-
+                    <f:SidePanelItem
+                        icon=""
+                        text=""
+                        enabled="false"
+                    />
                 </f:items>
             </f:SidePanel>
         </content>
         <footer>
             <Toolbar>
                 <ToolbarSpacer />
-                <Button enabled="false" text="Submit For Approval" type="Emphasized" />
+                <Button
+                    enabled="true"
+                    press="onSubmit"
+                    text="Submit For Approval"
+                    type="Emphasized"
+                />
             </Toolbar>
         </footer>
     </Page>
