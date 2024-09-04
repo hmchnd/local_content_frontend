@@ -1372,46 +1372,97 @@ sap.ui.define([
                 });
             },
             onSubmitComments: function() {
-                var that=this
-                debugger;
-                let oDataServiceModel = this.getOwnerComponent().getModel(); // Assuming this is the OData service model
-                let sComment = this.getView().byId("commentsTextArea").getValue(); // Retrieve comment from the text area
-              
+                var that = this;
+                let oDataServiceModel = this.getOwnerComponent().getModel();
+                let sComment = this.getView().byId("commentsTextArea").getValue();
             
-                // Check if comment and parentKeyID are available
+                // Check if comment is provided
                 if (!sComment) {
                     MessageBox.error("Please enter a comment.");
                     return;
                 }
-                
-              let sComments =[{
-                Comment:sComment
-              }
-
-              ]
             
-                // Create a new entry
+                // Prepare the comment entry
+                let sComments = [{
+                    Comment: sComment
+                }];
+            
+                // First, check if the corresponding header entry exists
+                oDataServiceModel.read("/LC_HeaderT", {
+                    filters: [
+                        new sap.ui.model.Filter("vendorID", sap.ui.model.FilterOperator.EQ, "VEN11"),
+                        new sap.ui.model.Filter("contractNo", sap.ui.model.FilterOperator.EQ, "CON01")
+                    ],
+                    success: function(oData) {
+                        if (oData.results && oData.results.length > 0) {
+                            // Header entry exists, use the existing header ID
+                            var headerID = oData.results[0].ID; // Assuming 'ID' is the key field
+            
+                            // Create a new entry in FeedbackReviewLogs associated with the existing header
+                            let feedbackEntry = {
+                                parentKey_ID: headerID, // Associate with the existing header
+                                Comment: sComment
+                            };
+            
+                            oDataServiceModel.create("/FeedbackReviewLogs", feedbackEntry, {
+                                success: function() {
+                                    sap.m.MessageBox.success("Save Successfully");
+                                    that.fetchFeedbackCommentsData();
+                                    that.getView().byId("commentsTextArea").setValue("");
+                                },
+                                error: function(oError) {
+                                    sap.m.MessageBox.error("Error saving feedback comment.");
+                                }
+                            });
+                        } else {
+                            // No header entry found, create a new header entry first
+                            that._createNewHeaderWithComment(oDataServiceModel, sComment);
+                        }
+                    },
+                    error: function(oError) {
+                        sap.m.MessageBox.error("Error checking for existing header entry.");
+                    }
+                });
+            },
+            
+            _createNewHeaderWithComment: function(oDataServiceModel, sComment) {
+                var that = this;
+            
+                // Create a new header entry
                 let headerEntry = {
-                    comments: sComments, // Initialize with the first line item
                     vendorID: "VEN11",
                     contractNo: "CON01",
                     reportingPeriod: "2024-08-08T00:00:00",
                     status: "Draft"
                 };
-
+            
                 oDataServiceModel.create("/LC_HeaderT", headerEntry, {
-                    success: function () {
-                        
-                       sap.m.MessageBox.success("Save Successfully")
-                       that.fetchFeedbackCommentsData();
-                       that.getView().byId("commentsTextArea").setValue("");
-                       
+                    success: function(oData) {
+                        // After the header is created, create the associated feedback comment
+                        var headerID = oData.ID; // Assuming 'ID' is returned in the response
+            
+                        let feedbackEntry = {
+                            parentKey_ID: headerID,
+                            Comment: sComment
+                        };
+            
+                        oDataServiceModel.create("/FeedbackReviewLogs", feedbackEntry, {
+                            success: function() {
+                                sap.m.MessageBox.success("Save Successfully");
+                                that.fetchFeedbackCommentsData();
+                                that.getView().byId("commentsTextArea").setValue("");
+                            },
+                            error: function(oError) {
+                                sap.m.MessageBox.error("Error saving feedback comment.");
+                            }
+                        });
                     },
-                    error: function (oError) {
-                        sap.m.MessageBox("Error")
+                    error: function(oError) {
+                        sap.m.MessageBox.error("Error creating new header entry.");
                     }
                 });
             },
+            
                   
             
             
@@ -1423,7 +1474,7 @@ sap.ui.define([
                 oDataServiceModel.read("/FeedbackReviewLogs", {
                     success: function (oData) {
                         oLocalModelCalculation.setData(oData.results);
-                        console.log("hello",oData.results)
+                        console.log(oData.results)
                         oLocalModelCalculation.refresh();
                     },
                     error: function (oError) {
