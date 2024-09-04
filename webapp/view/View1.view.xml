@@ -477,7 +477,23 @@
                                         <!-- Add more columns as needed -->
                                     </table:columns>
                                 </table:Table>
+                                <Label text="Comments"/>
+                                    <TextArea
+                                        id="commentsTextArea1"
+                                        width="100%"
+                                        rows="4"
+                                        placeholder="Enter your comments here..."
+                                    />
+                                    <Button
+                                        text="Submit Comments"
+                                        type="Emphasized"
+                                        press="onSubmitCommentsCalculation"
+                                    />
+                                
+                            
+                                
                             </IconTabFilter>
+                            
 
                             <!-- Third Tab -->
                             <IconTabFilter
@@ -552,6 +568,20 @@
                                         </table:Column>
                                     </table:columns>
                                 </table:Table>
+                                <Label text="Comments"/>
+                                    <TextArea
+                                        id="commentsTextArea2"
+                                        width="100%"
+                                        rows="4"
+                                        placeholder="Enter your comments here..."
+                                    />
+                                    <Button
+                                        text="Submit Comments"
+                                        type="Emphasized"
+                                        press="onSubmitCommentsContractor"
+                                    />
+                                
+                           
                             </IconTabFilter>
 
                             <!-- Fourth Tab -->
@@ -626,6 +656,20 @@
                                         </table:Column>
                                     </table:columns>
                                 </table:Table>
+                                <Label text="Comments"/>
+                                    <TextArea
+                                        id="commentsTextArea3"
+                                        width="100%"
+                                        rows="4"
+                                        placeholder="Enter your comments here..."
+                                    />
+                                    <Button
+                                        text="Submit Comments"
+                                        type="Emphasized"
+                                        press="onSubmitCommentsRok"
+                                    />
+                                
+                           
                             </IconTabFilter>
 
                             <!-- Fifth Tab -->
@@ -710,6 +754,20 @@
                                         </table:Column>
                                     </table:columns>
                                 </table:Table>
+                                <Label text="Comments"/>
+                                    <TextArea
+                                        id="commentsTextArea4"
+                                        width="100%"
+                                        rows="4"
+                                        placeholder="Enter your comments here..."
+                                    />
+                                    <Button
+                                        text="Submit Comments"
+                                        type="Emphasized"
+                                        press="onSubmitCommentsEmployee"
+                                    />
+                                
+                            
                             </IconTabFilter>
                         </items>
                     </IconTabBar>

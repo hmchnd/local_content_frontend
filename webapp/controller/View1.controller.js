@@ -1397,7 +1397,7 @@ sap.ui.define([
                         if (oData.results && oData.results.length > 0) {
                             // Header entry exists, use the existing header ID
                             var headerID = oData.results[0].ID; // Assuming 'ID' is the key field
-            
+           
                             // Create a new entry in FeedbackReviewLogs associated with the existing header
                             let feedbackEntry = {
                                 parentKey_ID: headerID, // Associate with the existing header
@@ -1407,6 +1407,7 @@ sap.ui.define([
                             oDataServiceModel.create("/FeedbackReviewLogs", feedbackEntry, {
                                 success: function() {
                                     sap.m.MessageBox.success("Save Successfully");
+                                    console.log("hello", feedbackEntry)
                                     that.fetchFeedbackCommentsData();
                                     that.getView().byId("commentsTextArea").setValue("");
                                 },
@@ -1463,7 +1464,375 @@ sap.ui.define([
                 });
             },
             
-                  
+            onSubmitCommentsCalculation: function() {
+                var that = this;
+                let oDataServiceModel = this.getOwnerComponent().getModel();
+                let sComment = this.getView().byId("commentsTextArea1").getValue();
+            
+                // Check if comment is provided
+                if (!sComment) {
+                    MessageBox.error("Please enter a comment.");
+                    return;
+                }
+            
+                // Prepare the comment entry
+                let sComments = [{
+                    Comment: sComment
+                }];
+            
+                // First, check if the corresponding header entry exists
+                oDataServiceModel.read("/LC_HeaderT", {
+                    filters: [
+                        new sap.ui.model.Filter("vendorID", sap.ui.model.FilterOperator.EQ, "VEN11"),
+                        new sap.ui.model.Filter("contractNo", sap.ui.model.FilterOperator.EQ, "CON01")
+                    ],
+                    success: function(oData) {
+                        if (oData.results && oData.results.length > 0) {
+                            // Header entry exists, use the existing header ID
+                            var headerID = oData.results[0].ID; // Assuming 'ID' is the key field
+           
+                            // Create a new entry in FeedbackReviewLogs associated with the existing header
+                            let feedbackEntry = {
+                                parentKey_ID: headerID, // Associate with the existing header
+                                Comment: sComment
+                            };
+            
+                            oDataServiceModel.create("/FeedbackReviewLogs", feedbackEntry, {
+                                success: function() {
+                                    sap.m.MessageBox.success("Save Successfully");
+                                    console.log("hello", feedbackEntry)
+                                    that.fetchFeedbackCommentsData();
+                                    that.getView().byId("commentsTextArea1").setValue("");
+                                },
+                                error: function(oError) {
+                                    sap.m.MessageBox.error("Error saving feedback comment.");
+                                }
+                            });
+                        } else {
+                            // No header entry found, create a new header entry first
+                            that._createNewHeaderWithComment(oDataServiceModel, sComment);
+                        }
+                    },
+                    error: function(oError) {
+                        sap.m.MessageBox.error("Error checking for existing header entry.");
+                    }
+                });
+            },
+            
+            _createNewHeaderWithComment: function(oDataServiceModel, sComment) {
+                var that = this;
+            
+                // Create a new header entry
+                let headerEntry = {
+                    vendorID: "VEN11",
+                    contractNo: "CON01",
+                    reportingPeriod: "2024-08-08T00:00:00",
+                    status: "Draft"
+                };
+            
+                oDataServiceModel.create("/LC_HeaderT", headerEntry, {
+                    success: function(oData) {
+                        // After the header is created, create the associated feedback comment
+                        var headerID = oData.ID; // Assuming 'ID' is returned in the response
+            
+                        let feedbackEntry = {
+                            parentKey_ID: headerID,
+                            Comment: sComment
+                        };
+            
+                        oDataServiceModel.create("/FeedbackReviewLogs", feedbackEntry, {
+                            success: function() {
+                                sap.m.MessageBox.success("Save Successfully");
+                                that.fetchFeedbackCommentsData();
+                                that.getView().byId("commentsTextArea1").setValue("");
+                            },
+                            error: function(oError) {
+                                sap.m.MessageBox.error("Error saving feedback comment.");
+                            }
+                        });
+                    },
+                    error: function(oError) {
+                        sap.m.MessageBox.error("Error creating new header entry.");
+                    }
+                });
+            },  
+            onSubmitCommentsContractor: function() {
+                var that = this;
+                let oDataServiceModel = this.getOwnerComponent().getModel();
+                let sComment = this.getView().byId("commentsTextArea2").getValue();
+            
+                // Check if comment is provided
+                if (!sComment) {
+                    MessageBox.error("Please enter a comment.");
+                    return;
+                }
+            
+                // Prepare the comment entry
+                let sComments = [{
+                    Comment: sComment
+                }];
+            
+                // First, check if the corresponding header entry exists
+                oDataServiceModel.read("/LC_HeaderT", {
+                    filters: [
+                        new sap.ui.model.Filter("vendorID", sap.ui.model.FilterOperator.EQ, "VEN11"),
+                        new sap.ui.model.Filter("contractNo", sap.ui.model.FilterOperator.EQ, "CON01")
+                    ],
+                    success: function(oData) {
+                        if (oData.results && oData.results.length > 0) {
+                            // Header entry exists, use the existing header ID
+                            var headerID = oData.results[0].ID; // Assuming 'ID' is the key field
+           
+                            // Create a new entry in FeedbackReviewLogs associated with the existing header
+                            let feedbackEntry = {
+                                parentKey_ID: headerID, // Associate with the existing header
+                                Comment: sComment
+                            };
+            
+                            oDataServiceModel.create("/FeedbackReviewLogs", feedbackEntry, {
+                                success: function() {
+                                    sap.m.MessageBox.success("Save Successfully");
+                                    console.log("hello", feedbackEntry)
+                                    that.fetchFeedbackCommentsData();
+                                    that.getView().byId("commentsTextArea2").setValue("");
+                                },
+                                error: function(oError) {
+                                    sap.m.MessageBox.error("Error saving feedback comment.");
+                                }
+                            });
+                        } else {
+                            // No header entry found, create a new header entry first
+                            that._createNewHeaderWithComment(oDataServiceModel, sComment);
+                        }
+                    },
+                    error: function(oError) {
+                        sap.m.MessageBox.error("Error checking for existing header entry.");
+                    }
+                });
+            },
+            
+            _createNewHeaderWithComment: function(oDataServiceModel, sComment) {
+                var that = this;
+            
+                // Create a new header entry
+                let headerEntry = {
+                    vendorID: "VEN11",
+                    contractNo: "CON01",
+                    reportingPeriod: "2024-08-08T00:00:00",
+                    status: "Draft"
+                };
+            
+                oDataServiceModel.create("/LC_HeaderT", headerEntry, {
+                    success: function(oData) {
+                        // After the header is created, create the associated feedback comment
+                        var headerID = oData.ID; // Assuming 'ID' is returned in the response
+            
+                        let feedbackEntry = {
+                            parentKey_ID: headerID,
+                            Comment: sComment
+                        };
+            
+                        oDataServiceModel.create("/FeedbackReviewLogs", feedbackEntry, {
+                            success: function() {
+                                sap.m.MessageBox.success("Save Successfully");
+                                that.fetchFeedbackCommentsData();
+                                that.getView().byId("commentsTextArea2").setValue("");
+                            },
+                            error: function(oError) {
+                                sap.m.MessageBox.error("Error saving feedback comment.");
+                            }
+                        });
+                    },
+                    error: function(oError) {
+                        sap.m.MessageBox.error("Error creating new header entry.");
+                    }
+                });
+            },  
+            onSubmitCommentsRok: function() {
+                var that = this;
+                let oDataServiceModel = this.getOwnerComponent().getModel();
+                let sComment = this.getView().byId("commentsTextArea3").getValue();
+            
+                // Check if comment is provided
+                if (!sComment) {
+                    MessageBox.error("Please enter a comment.");
+                    return;
+                }
+            
+                // Prepare the comment entry
+                let sComments = [{
+                    Comment: sComment
+                }];
+            
+                // First, check if the corresponding header entry exists
+                oDataServiceModel.read("/LC_HeaderT", {
+                    filters: [
+                        new sap.ui.model.Filter("vendorID", sap.ui.model.FilterOperator.EQ, "VEN11"),
+                        new sap.ui.model.Filter("contractNo", sap.ui.model.FilterOperator.EQ, "CON01")
+                    ],
+                    success: function(oData) {
+                        if (oData.results && oData.results.length > 0) {
+                            // Header entry exists, use the existing header ID
+                            var headerID = oData.results[0].ID; // Assuming 'ID' is the key field
+           
+                            // Create a new entry in FeedbackReviewLogs associated with the existing header
+                            let feedbackEntry = {
+                                parentKey_ID: headerID, // Associate with the existing header
+                                Comment: sComment
+                            };
+            
+                            oDataServiceModel.create("/FeedbackReviewLogs", feedbackEntry, {
+                                success: function() {
+                                    sap.m.MessageBox.success("Save Successfully");
+                                    console.log("hello", feedbackEntry)
+                                    that.fetchFeedbackCommentsData();
+                                    that.getView().byId("commentsTextArea3").setValue("");
+                                },
+                                error: function(oError) {
+                                    sap.m.MessageBox.error("Error saving feedback comment.");
+                                }
+                            });
+                        } else {
+                            // No header entry found, create a new header entry first
+                            that._createNewHeaderWithComment(oDataServiceModel, sComment);
+                        }
+                    },
+                    error: function(oError) {
+                        sap.m.MessageBox.error("Error checking for existing header entry.");
+                    }
+                });
+            },
+            
+            _createNewHeaderWithComment: function(oDataServiceModel, sComment) {
+                var that = this;
+            
+                // Create a new header entry
+                let headerEntry = {
+                    vendorID: "VEN11",
+                    contractNo: "CON01",
+                    reportingPeriod: "2024-08-08T00:00:00",
+                    status: "Draft"
+                };
+            
+                oDataServiceModel.create("/LC_HeaderT", headerEntry, {
+                    success: function(oData) {
+                        // After the header is created, create the associated feedback comment
+                        var headerID = oData.ID; // Assuming 'ID' is returned in the response
+            
+                        let feedbackEntry = {
+                            parentKey_ID: headerID,
+                            Comment: sComment
+                        };
+            
+                        oDataServiceModel.create("/FeedbackReviewLogs", feedbackEntry, {
+                            success: function() {
+                                sap.m.MessageBox.success("Save Successfully");
+                                console.log("hello", feedbackEntry)
+                                that.fetchFeedbackCommentsData();
+                                that.getView().byId("commentsTextArea3").setValue("");
+                            },
+                            error: function(oError) {
+                                sap.m.MessageBox.error("Error saving feedback comment.");
+                            }
+                        });
+                    },
+                    error: function(oError) {
+                        sap.m.MessageBox.error("Error creating new header entry.");
+                    }
+                });
+            },
+            onSubmitCommentsEmployee: function() {
+                var that = this;
+                let oDataServiceModel = this.getOwnerComponent().getModel();
+                let sComment = this.getView().byId("commentsTextArea4").getValue();
+            
+                // Check if comment is provided
+                if (!sComment) {
+                    MessageBox.error("Please enter a comment.");
+                    return;
+                }
+            
+                // Prepare the comment entry
+                let sComments = [{
+                    Comment: sComment
+                }];
+            
+                // First, check if the corresponding header entry exists
+                oDataServiceModel.read("/LC_HeaderT", {
+                    filters: [
+                        new sap.ui.model.Filter("vendorID", sap.ui.model.FilterOperator.EQ, "VEN11"),
+                        new sap.ui.model.Filter("contractNo", sap.ui.model.FilterOperator.EQ, "CON01")
+                    ],
+                    success: function(oData) {
+                        if (oData.results && oData.results.length > 0) {
+                            // Header entry exists, use the existing header ID
+                            var headerID = oData.results[0].ID; // Assuming 'ID' is the key field
+           
+                            // Create a new entry in FeedbackReviewLogs associated with the existing header
+                            let feedbackEntry = {
+                                parentKey_ID: headerID, // Associate with the existing header
+                                Comment: sComment
+                            };
+            
+                            oDataServiceModel.create("/FeedbackReviewLogs", feedbackEntry, {
+                                success: function() {
+                                    sap.m.MessageBox.success("Save Successfully");
+                                    console.log("hello", feedbackEntry)
+                                    that.fetchFeedbackCommentsData();
+                                    that.getView().byId("commentsTextArea4").setValue("");
+                                },
+                                error: function(oError) {
+                                    sap.m.MessageBox.error("Error saving feedback comment.");
+                                }
+                            });
+                        } else {
+                            // No header entry found, create a new header entry first
+                            that._createNewHeaderWithComment(oDataServiceModel, sComment);
+                        }
+                    },
+                    error: function(oError) {
+                        sap.m.MessageBox.error("Error checking for existing header entry.");
+                    }
+                });
+            },
+            
+            _createNewHeaderWithComment: function(oDataServiceModel, sComment) {
+                var that = this;
+            
+                // Create a new header entry
+                let headerEntry = {
+                    vendorID: "VEN11",
+                    contractNo: "CON01",
+                    reportingPeriod: "2024-08-08T00:00:00",
+                    status: "Draft"
+                };
+            
+                oDataServiceModel.create("/LC_HeaderT", headerEntry, {
+                    success: function(oData) {
+                        // After the header is created, create the associated feedback comment
+                        var headerID = oData.ID; // Assuming 'ID' is returned in the response
+            
+                        let feedbackEntry = {
+                            parentKey_ID: headerID,
+                            Comment: sComment
+                        };
+            
+                        oDataServiceModel.create("/FeedbackReviewLogs", feedbackEntry, {
+                            success: function() {
+                                sap.m.MessageBox.success("Save Successfully");
+                                that.fetchFeedbackCommentsData();
+                                that.getView().byId("commentsTextArea4").setValue("");
+                            },
+                            error: function(oError) {
+                                sap.m.MessageBox.error("Error saving feedback comment.");
+                            }
+                        });
+                    },
+                    error: function(oError) {
+                        sap.m.MessageBox.error("Error creating new header entry.");
+                    }
+                });
+            },    
             
             
             
