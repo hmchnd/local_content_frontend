@@ -1354,8 +1354,8 @@ sap.ui.define([
             onSubmit: function() {
                 const oModel = this.getOwnerComponent().getModel();
                 const oPayload = {
-                    to: "shobhittyagimit@gmail.com",  
-                    subject: "SAP MAIL", 
+                    to: "chandh@terralink-global.com",  
+                    subject: "Local Content Submission From Supplier", 
                     supplierID: "123456" 
                 };
                 console.log("Payload successfully send ", oPayload )

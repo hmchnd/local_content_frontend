@@ -3,6 +3,12 @@
   "authenticationMethod": "route",
   "routes": [
     {
+      "source": "^/v2/odata/(.*)$",
+      "target": "/v2/odata/$1",
+      "destination": "LOCAL_CONTENT_BACKEND",
+      "authenticationType": "xsuaa"
+    },
+    {
       "source": "^/v2/resources/(.*)$",
       "target": "/v2/resources/$1",
       "authenticationType": "none",
